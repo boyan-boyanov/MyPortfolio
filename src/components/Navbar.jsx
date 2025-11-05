@@ -10,10 +10,7 @@ import Logo2 from '../assets/Logo2.png'
 const Navbar = () => {
   const [active, setActive] = useState("")
   const [toggle, setToggle] = useState(false)
-  console.log(active);
-  console.log(navLinks);
-
-
+ 
   return (
     <nav className='navbar'>
       <div className='navigation-container'>
