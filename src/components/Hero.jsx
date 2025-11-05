@@ -12,7 +12,7 @@ const Hero = () => {
       <div className='hero-inner'>
         <div className="hero-col">
           <div className="dot" />
-           <div className="vertical-line violet-gradient" />
+          <div className="vertical-line violet-gradient" />
         </div>
 
         <div>
@@ -21,6 +21,7 @@ const Hero = () => {
         </div>
       </div>
 
+      <ComputersCanvas></ComputersCanvas>
     </section>
   )
 }

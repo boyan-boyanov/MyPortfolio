@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className='navbar'>
       <div className='navigation-container'>
-        <Link to="/" className='flex items-center gap-2' ocClick={() => {
+        <Link to="/" className='flex items-center gap-2' onClick={() => {
           setActive("")
           window.scroll(0, 0)
         }} >
