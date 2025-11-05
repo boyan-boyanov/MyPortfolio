@@ -10,7 +10,7 @@ import Logo2 from '../assets/Logo2.png'
 const Navbar = () => {
   const [active, setActive] = useState("")
   const [toggle, setToggle] = useState(false)
- 
+
   return (
     <nav className='navbar'>
       <div className='navigation-container'>
@@ -37,9 +37,9 @@ const Navbar = () => {
               {navLinks.map((link) => (
                 <li key={link.id} className={`${active === link.title ? "custom-white" : "custom-secondary"} 
                     text-[16px] font-medium cursor-pointer font-poppins`} onClick={() => {
-                      setToggle(false)
-                      setActive(link.title)
-                      }}>
+                    setToggle(false)
+                    setActive(link.title)
+                  }}>
                   <a href={`#${link.id}`}>{link.title}</a>
                 </li>
               ))}
