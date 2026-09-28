@@ -3,12 +3,13 @@ import { Canvas } from '@react-three/fiber'
 import {
   Decal,
   Float,
-  OrbitControls,
   PerspectiveCamera,
   Preload,
   useTexture,
   View,
 } from '@react-three/drei'
+
+import ResettingControls from './ResettingControls'
 
 // useTexture suspends while the icon loads, so this component must render inside <Suspense>
 const Ball = ({ imgUrl }) => {
@@ -40,14 +41,15 @@ const Ball = ({ imgUrl }) => {
 }
 
 // A normal page element; BallsCanvas draws the ball inside its box.
-// Each view gets its own camera so OrbitControls rotates only this ball.
-export const BallView = ({ icon, className }) => {
+// Each view gets its own camera so the controls rotate only this ball.
+// Balls given the same resetGroup share one "return to start" timer.
+export const BallView = ({ icon, className, resetGroup }) => {
   return (
     <View className={className}>
       {/* Same camera a standalone <Canvas> gets by default */}
       <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={75} />
       {/* Rotate only: panning (right mouse button) would move the ball out of its box */}
-      <OrbitControls enableZoom={false} enablePan={false} />
+      <ResettingControls group={resetGroup} enableZoom={false} enablePan={false} />
       <Suspense fallback={null}>
         <Ball imgUrl={icon} />
       </Suspense>
