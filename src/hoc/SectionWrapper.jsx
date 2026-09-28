@@ -17,7 +17,7 @@ const SectionWrapper = (Component, idName) =>
         className={`${styles.padding} max-w-7xl mx-auto relative z-0`}
       >
         {/* Offsets the anchor so the fixed navbar does not cover the section title */}
-        <span className="hash-span" id={idName}>
+        <span className="hash-span" id={idName || undefined}>
           &nbsp;
         </span>
 

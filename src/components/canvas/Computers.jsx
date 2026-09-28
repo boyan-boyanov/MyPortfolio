@@ -1,6 +1,7 @@
-import React, {Suspense, useEffect} from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import '../customStyles/Computers.css'
-import { Canvas, useThree } from '@react-three/fiber'
+import { Spherical, Vector3 } from 'three'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Preload, useGLTF } from '@react-three/drei'
 import CanvasLoader from '../Loader'
 
@@ -8,6 +9,8 @@ import CanvasLoader from '../Loader'
 const SATURATION = 0.7
 // 1 = original glow of the RGB parts, 0 = no glow
 const EMISSIVE_INTENSITY = 0.6
+// How long after the user lets go of the model it returns to its starting view
+const RESET_DELAY = 5000
 
 //scetchfab.com for more 3D models
 // useGLTF suspends while the model loads, so this component must render inside <Suspense>
@@ -65,6 +68,68 @@ const Computers = ({ isMobile }) => {
   )
 }
 
+// OrbitControls that glide back to the starting view RESET_DELAY ms after the user lets go
+const ResettingControls = (props) => {
+  const controls = useRef(null)
+  const camera = useThree((state) => state.camera)
+  const invalidate = useThree((state) => state.invalidate)
+  const home = useRef(null)
+  const resetting = useRef(false)
+  const timer = useRef(null)
+  const [offset] = useState(() => new Vector3())
+  const [current] = useState(() => new Spherical())
+
+  useEffect(() => () => clearTimeout(timer.current), [])
+
+  const handleStart = () => {
+    clearTimeout(timer.current)
+    resetting.current = false
+    // Remember the view right before the first interaction
+    if (!home.current) {
+      home.current = {
+        target: controls.current.target.clone(),
+        offset: new Spherical().setFromVector3(offset.copy(camera.position).sub(controls.current.target)),
+      }
+    }
+  }
+
+  const handleEnd = () => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      resetting.current = true
+      invalidate()
+    }, RESET_DELAY)
+  }
+
+  useFrame((_, delta) => {
+    if (!resetting.current || !home.current) return
+    const orbit = controls.current
+    // Frame-rate independent easing: covers ~95% of the way in about one second
+    const t = 1 - Math.pow(0.05, delta)
+
+    // Rotate around the target instead of moving in a straight line through the model
+    current.setFromVector3(offset.copy(camera.position).sub(orbit.target))
+    let dTheta = home.current.offset.theta - current.theta
+    dTheta = Math.atan2(Math.sin(dTheta), Math.cos(dTheta)) // shortest way around
+    current.theta += dTheta * t
+    current.phi += (home.current.offset.phi - current.phi) * t
+    current.radius += (home.current.offset.radius - current.radius) * t
+
+    orbit.target.lerp(home.current.target, t)
+    camera.position.setFromSpherical(current).add(orbit.target)
+    orbit.update()
+
+    const done = Math.abs(dTheta) < 0.001 && orbit.target.distanceTo(home.current.target) < 0.001
+    if (done) {
+      resetting.current = false
+    } else {
+      invalidate() // frameloop='demand': keep requesting frames until the animation ends
+    }
+  })
+
+  return <OrbitControls ref={controls} onStart={handleStart} onEnd={handleEnd} {...props} />
+}
+
 const ComputersCanvas = ({ isMobile }) => {
 
   return (
@@ -75,7 +140,7 @@ const ComputersCanvas = ({ isMobile }) => {
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls
+        <ResettingControls
           enableZoom={false}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
