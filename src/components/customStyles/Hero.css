@@ -96,7 +96,7 @@
   display: flex;            
   justify-content: center;  
   align-items: flex-start;  
-  padding: 0.5rem;          
+  padding: 0.5rem 0;         
 }
 
 .motion-dot {

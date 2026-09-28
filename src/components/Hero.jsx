@@ -48,7 +48,7 @@ const Hero = () => {
      <div className='motion-scroller-container'>
       <a href="#about">
         <div className='motion-scroller'>
-          <motion.dev 
+          <motion.div 
           animate={{y: [0,34,0]}}
           transition={{
             duration: 1.5,
