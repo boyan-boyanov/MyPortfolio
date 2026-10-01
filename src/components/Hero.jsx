@@ -39,7 +39,10 @@ const Hero = () => {
 
         <div>
           <h1 className='hero-title'>Hi, I'm <span className='text-purple'>Boyan</span></h1>
-          <p className='hero-sub-text'>I develop 3D visuals, user <br className='responsive-break' /> interfaces and web applications.</p>
+          <p className='hero-sub-text'>Software Engineer specializing in frontend development,
+            <br className='responsive-break' /> building interactive 3D experiences,
+            <br className='responsive-break' /> and user-centered web applications.
+          </p>
         </div>
       </div>
 

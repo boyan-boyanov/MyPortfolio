@@ -33,12 +33,20 @@ const About = () => {
   return (
     <>
     <motion.div variants={textVariant()}>
-      <p className={styles.sectionSubText}>Introduction</p>
-      <h2 className={styles.sectionHeadText}>Overview.</h2>
+      <p className={styles.sectionSubText}>FROM DESIGN TO CODE</p>
+      <h2 className={styles.sectionHeadText}>My Journey.</h2>
     </motion.div>
 
     <motion.p variants={fadeIn("", "", 0.1, 1)} className='mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]'>
-    I am a full-stack developer with a passion for creating interactive and visually appealing web applications. I have experience working with JavaScript, React, Node.js, Express, and MongoDB. I am a quick learner and I am always looking to expand my knowledge and skill set. I am a team player and I am excited to work with others to create amazing applications.
+      My path to software engineering was anything but traditional.
+      <br className='responsive-break' />
+      <br className='responsive-break' /> Before becoming a software engineer, I spent nearly two decades in 3D design, project coordination, logistics, and team leadership. I designed furniture and living spaces, created 3D visualizations, and led teams responsible for delivering projects from concept to completion.
+      <br className='responsive-break' />
+      <br className='responsive-break' /> Technology remained a constant passion throughout my career, ultimately leading me to earn a Master's degree in Software Engineering and transition into professional software development.
+      <br className='responsive-break' />
+      <br className='responsive-break' /> Today, I work primarily as a Frontend Engineer, building modern web applications and interactive 3D experiences with Three.js while continuing to grow toward full-stack development.
+      <br className='responsive-break' />
+      <br className='responsive-break' /> Beyond software development, I actively contribute to mentoring, technical education, and community initiatives, helping aspiring engineers develop both technical skills and confidence.
     </motion.p>
 
     <div className='mt-20 flex flex-wrap gap-10'>
