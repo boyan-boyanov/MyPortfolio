@@ -16,7 +16,15 @@ const RESET_DURATION = 1.5
 
 //scetchfab.com for more 3D models
 // useGLTF suspends while the model loads, so this component must render inside <Suspense>
-const Computers = ({ isMobile }) => {
+// Size and placement of the model per screen type; the landscape phone view wins over the other two
+const MODEL_VIEWS = {
+  desktop: { scale: 0.75, position: [0, -3.25, -1.5] },
+  mobile: { scale: 0.38, position: [0, -2.75, -0.5] },
+  landscapePhone: { scale: 0.5, position: [0, -3, -1.25] },
+}
+
+const Computers = ({ isMobile, isLandscapePhone }) => {
+  const view = MODEL_VIEWS[isLandscapePhone ? 'landscapePhone' : isMobile ? 'mobile' : 'desktop']
   const computer = useGLTF('./desktop_pc/scene.gltf')
   const invalidate = useThree((state) => state.invalidate)
 
@@ -62,15 +70,15 @@ const Computers = ({ isMobile }) => {
 
       {/* 3D object properties */}
       <primitive object={computer.scene}
-        scale={isMobile ? 0.3 : 0.75}
-        position={isMobile ? [0, -0.5, -0.5] : [0, -3.25, -1.5]}
+        scale={view.scale}
+        position={view.position}
         rotation={[-0.01, -0.2, -0.1]}
       />
     </mesh>
   )
 }
 
-const ComputersCanvas = ({ isMobile }) => {
+const ComputersCanvas = ({ isMobile, isLandscapePhone }) => {
 
   return (
     <Canvas
@@ -87,7 +95,7 @@ const ComputersCanvas = ({ isMobile }) => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Computers isMobile={isMobile} />
+        <Computers isMobile={isMobile} isLandscapePhone={isLandscapePhone} />
       </Suspense>
 
       <Preload all />

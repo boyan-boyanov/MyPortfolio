@@ -6,8 +6,20 @@ import './customStyles/Hero.css'
 
 
 
+// Phone turned sideways: wide but very short screen (same query as in Hero.css)
+const LANDSCAPE_PHONE_QUERY = '(orientation: landscape) and (max-height: 500px)'
+
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false)    
+  const [isLandscapePhone, setIsLandscapePhone] = useState(false)
+
+    useEffect(() => {
+      const query = window.matchMedia(LANDSCAPE_PHONE_QUERY)
+      setIsLandscapePhone(query.matches)
+      const handleChange = (event) => setIsLandscapePhone(event.matches)
+      query.addEventListener('change', handleChange)
+      return () => query.removeEventListener('change', handleChange)
+    }, [])
     
     useEffect(()=>{
       //Add a listener for changes to the screen size
@@ -46,7 +58,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <ComputersCanvas isMobile={isMobile}></ComputersCanvas>
+      <ComputersCanvas isMobile={isMobile} isLandscapePhone={isLandscapePhone}></ComputersCanvas>
      
      <div className='motion-scroller-container'>
       <a href="#about">

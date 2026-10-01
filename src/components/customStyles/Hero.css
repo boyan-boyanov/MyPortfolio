@@ -163,3 +163,43 @@
     line-height: 40px;
   }
 }
+/* Phones (matches isMobile in Hero.jsx): a fixed-height hero instead of a full screen,
+   so the scroller sits right under the desk and About starts right after it.
+   HERO HEIGHT ON PHONES: change `height` below (the 3D model scales with it;
+   fine-tune the mobile `scale` / `position` in canvas/Computers.jsx) */
+@media (max-width: 500px) {
+  .hero-section {
+    height: 600px;
+  }
+
+  .motion-scroller-container {
+    bottom: 1.25rem;
+  }
+}
+
+/* Phones in landscape (wide but very short screen): 100vh is too short for text + model,
+   so use a fixed height and let the page scroll. HERO HEIGHT IN LANDSCAPE: change `height` */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero-section {
+    height: 720px;
+  }
+
+  /* Smaller heading so text + model fit; the 3D model scales with the hero height */
+  .hero-title {
+    font-size: 44px;
+    line-height: 1.2;
+  }
+
+  .hero-sub-text {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .vertical-line {
+    height: 12rem;
+  }
+
+  .motion-scroller-container {
+    bottom: 0.75rem;
+  }
+}
