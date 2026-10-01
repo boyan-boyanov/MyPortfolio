@@ -3,6 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { PointMaterial, Points, Preload } from '@react-three/drei'
 import { inSphere } from 'maath/random'
 
+import { useScenesPaused } from '../../utils/scenePause'
+
 const STAR_COUNT = 1700
 const STAR_FIELD_RADIUS = 1.2
 
@@ -37,6 +39,7 @@ const Stars = (props) => {
 const StarsCanvas = () => {
   const containerRef = useRef(null)
   const [inView, setInView] = useState(false)
+  const paused = useScenesPaused()
 
   // The stars animate every frame, so stop rendering while they are off screen
   useEffect(() => {
@@ -50,7 +53,7 @@ const StarsCanvas = () => {
 
   return (
     <div ref={containerRef} className='w-full h-auto absolute inset-0 z-[-1]'>
-      <Canvas camera={{ position: [0, 0, 1] }} frameloop={inView ? 'always' : 'never'}>
+      <Canvas camera={{ position: [0, 0, 1] }} frameloop={inView && !paused ? 'always' : 'never'}>
         <Suspense fallback={null}>
           <Stars />
         </Suspense>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component'
 import { motion } from 'framer-motion'
 import 'react-vertical-timeline-component/style.min.css'
@@ -7,10 +7,9 @@ import { styles } from '../styles'
 import { experiences, contributions } from '../constants'
 import { textVariant } from '../utils/motion'
 import SectionWrapper from '../hoc/SectionWrapper'
+import TimelineModal, { TimelineIcon } from './TimelineModal'
 
 const CARD_BG = '#1d1836'
-// Icon size inside the timeline circle; an entry can override it with `iconSize` (e.g. "100%" to fill the circle)
-const DEFAULT_ICON_SIZE = '60%'
 
 // "MM/YYYY" -> sortable number of months. Invalid or missing dates go to the end of the timeline
 const toMonths = (value) => {
@@ -29,7 +28,7 @@ const timelineItems = [
   ...contributions.map((item) => ({ ...item, type: 'contribution', side: 'right' })),
 ].sort((a, b) => toMonths(a.showOnTimeline) - toMonths(b.showOnTimeline))
 
-const ExperienceCard = ({ experience }) => {
+const ExperienceCard = ({ experience, onShowMore }) => {
   return (
     <VerticalTimelineElement
       position={experience.side}
@@ -38,18 +37,8 @@ const ExperienceCard = ({ experience }) => {
       contentArrowStyle={{ borderRight: `7px solid ${CARD_BG}` }}
       date={experience.date}
       iconStyle={{ background: experience.iconBg }}
-      icon={
-        // overflow-hidden clips the image to the circle (iconSize can go above 100% to zoom in)
-        <div className='flex justify-center items-center w-full h-full rounded-full overflow-hidden'>
-          <img
-            src={experience.icon}
-            alt={experience.company_name}
-            style={{ width: experience.iconSize ?? DEFAULT_ICON_SIZE, height: experience.iconSize ?? DEFAULT_ICON_SIZE }}
-            // max-w-none + shrink-0 allow sizes above 100%; the wrapper clips everything outside the circle
-            className='object-contain max-w-none shrink-0'
-          />
-        </div>
-      }
+      // Size per entry with `iconSize` (see TimelineIcon)
+      icon={<TimelineIcon item={experience} />}
     >
       <div>
         {/* Label from the entry's `label` field; hidden when the entry has none.
@@ -76,9 +65,10 @@ const ExperienceCard = ({ experience }) => {
         ))}
       </ul>
 
-      {/* TODO: "Show more" behavior is not defined yet */}
       <button
         type='button'
+        aria-haspopup='dialog'
+        onClick={() => onShowMore(experience)}
         className='mt-6 px-4 py-2 rounded-lg border border-[#915eff]/60 text-[14px] font-medium text-white hover:bg-[#915eff]/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff] transition-colors'
       >
         Show more
@@ -88,6 +78,10 @@ const ExperienceCard = ({ experience }) => {
 }
 
 const Experience = () => {
+  // The entry shown in the "Show more" modal; null = closed
+  const [selected, setSelected] = useState(null)
+  const closeModal = useCallback(() => setSelected(null), [])
+
   return (
     <>
       <motion.div variants={textVariant()}>
@@ -101,10 +95,13 @@ const Experience = () => {
             <ExperienceCard
               key={`${experience.type}-${experience.company_name}-${experience.date}`}
               experience={experience}
+              onShowMore={setSelected}
             />
           ))}
         </VerticalTimeline>
       </div>
+
+      <TimelineModal item={selected} onClose={closeModal} />
     </>
   )
 }

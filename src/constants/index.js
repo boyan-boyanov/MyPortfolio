@@ -126,6 +126,11 @@ const technologies = [
 // `label` is the small text above the card title (e.g. "Work", "Freelance", "Internship").
 // `iconSize` (optional) is the icon size inside the timeline circle: "60%" by default, "100%" fills it,
 // above 100% zooms in (e.g. "130%") and everything outside the circle is clipped.
+// `details` (optional) fills the "Show more" modal; every part is optional and empty parts are hidden:
+//   overview: "text", whatIDid: [...], skills: [...],
+//   bringToSoftware: { text: "paragraph", skills: [...] },
+//   gallery: [{ src: importedImage, alt: "...", caption: "..." }]
+// Without `details.whatIDid` the modal shows the card `points` instead.
 // Work experiences are shown on the left side of the timeline
 const experiences = [
   {
@@ -142,6 +147,33 @@ const experiences = [
       "in 3D design, operations, logistics,\n" +
       "and team leadership."
     ],
+    details: {
+      overview:
+        "Before transitioning into software engineering, I spent nearly two decades working across " +
+        "furniture design, 3D visualization, operations management, logistics coordination, and team leadership.",
+      whatIDid: [
+        "Designed furniture, interiors, and complete residential spaces.",
+        "Created photorealistic 3D visualizations and design concepts.",
+        "Coordinated projects through the full lifecycle, from concept to installation.",
+        "Managed suppliers, logistics, and cross-functional operational processes.",
+        "Led teams responsible for logistics, delivery, and installation.",
+      ],
+      skills: [
+        "Leadership",
+        "Communication",
+        "3D Design",
+        "Project Coordination",
+        "Logistics",
+        "Operations Management",
+        "Customer Engagement",
+      ],
+      bringToSoftware: {
+        text:
+          "This background continues to influence how I approach software engineering today, " +
+          "helping me combine design thinking, stakeholder communication, project planning, " +
+          "and team collaboration to build user-focused solutions.",
+      },
+    },
   },
   {
     label: "Work",

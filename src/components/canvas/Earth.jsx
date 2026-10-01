@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Preload, useGLTF } from '@react-three/drei'
 
 import CanvasLoader from '../Loader'
+import { useScenesPaused } from '../../utils/scenePause'
 
 // useGLTF suspends while the model loads, so this component must render inside <Suspense>
 const Earth = () => {
@@ -12,10 +13,13 @@ const Earth = () => {
 }
 
 const EarthCanvas = () => {
+  const paused = useScenesPaused()
+
   return (
     <Canvas
       shadows
-      frameloop='demand'
+      // Paused (e.g. a modal is open): stop drawing; the controls would otherwise keep requesting frames
+      frameloop={paused ? 'never' : 'demand'}
       dpr={[1, 2]}
       gl={{ preserveDrawingBuffer: true }}
       camera={{ fov: 45, near: 0.1, far: 200, position: [-4, 3, 6] }}

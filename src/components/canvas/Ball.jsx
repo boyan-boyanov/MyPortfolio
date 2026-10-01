@@ -10,6 +10,7 @@ import {
 } from '@react-three/drei'
 
 import ResettingControls from './ResettingControls'
+import { useScenesPaused } from '../../utils/scenePause'
 
 // useTexture suspends while the icon loads, so this component must render inside <Suspense>
 const Ball = ({ imgUrl }) => {
@@ -61,10 +62,13 @@ export const BallView = ({ icon, className, resetGroup }) => {
 // instead of one canvas per ball (browsers allow only ~16 at a time).
 // It covers the viewport, so it is hidden while its section is off screen.
 export const BallsCanvas = ({ eventSource, active = true }) => {
+  // Paused (e.g. a modal is open): keep the balls visible but stop animating them
+  const paused = useScenesPaused()
+
   return (
     <Canvas
       eventSource={eventSource}
-      frameloop={active ? 'always' : 'never'}
+      frameloop={active && !paused ? 'always' : 'never'}
       dpr={[1, 2]}
       style={{
         position: 'fixed',
