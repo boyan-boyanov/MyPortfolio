@@ -26,9 +26,9 @@ import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
 
 import meta from "./company/meta.png";
-import shopify from "./company/shopify.png";
+import tax from "./company/tax.png";
 import furniture from "./company/furniture.png";
-import tesla from "./company/tesla.png";
+import academic from "./company/academic.png";
 
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
@@ -57,9 +57,9 @@ export {
   typescript,
   threejs,
   meta,
-  shopify,
+  tax,
   furniture,
-  tesla,
+  academic,
   carrent,
   jobit,
   tripguide,

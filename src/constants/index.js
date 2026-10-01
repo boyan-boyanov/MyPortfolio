@@ -17,8 +17,8 @@ import {
   docker,
   meta,
   furniture,
-  tesla,
-  shopify,
+  academic,
+  tax,
   carrent,
   jobit,
   tripguide,
@@ -177,33 +177,98 @@ const experiences = [
   },
   {
     label: "Work",
-    title: "React Native Developer",
-    company_name: "Tesla",
-    icon: tesla,
+    title: "ENTERPRISE REPORTING SOLUTION",
+    company_name: "Higher Education Sector",
+    icon: academic,
+    iconSize: "123%",
     iconBg: "#E6DEDD",
-    date: "Jan 2021 - Feb 2022",
-    showOnTimeline: "01/2021",
+    date: "Sep 2022 - Sep 2023",
+    showOnTimeline: "09/2022",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Enterprise reporting solution built around the Ellucian Banner ecosystem and Argos " +
+      "reporting tools.",
     ],
+    details: {
+      overview:
+          "Contributed to an enterprise reporting solution supporting academic and administrative operations within the higher education sector. " +
+          "The platform relied on a highly complex enterprise ecosystem built around Ellucian Banner, " +
+          "requiring analysis and reporting across large-scale relational datasets and highly interconnected data models.",
+
+      whatIDid: [
+        "Collaborated with stakeholders to gather reporting requirements and define report specifications.",
+        "Designed and developed SQL-based reports for complex enterprise data structures.",
+        "Analyzed relationships between application workflows and highly relational database entities.",
+        "Created interactive dashboards and reporting views using Argos reporting tools.",
+        "Performed testing and validation to ensure data accuracy, consistency, and reporting reliability.",
+      ],
+
+      skills: [
+        "SQL",
+        "Argos",
+        "Ellucian Banner",
+        "Data Analysis",
+        "Reporting",
+        "Dashboard Development",
+        "Requirements Analysis",
+        "Stakeholder Communication",
+        "Enterprise Systems",
+        "Complex Data Models"
+      ],
+
+      bringToSoftware: {
+        text:
+            "This project strengthened my ability to analyze complex enterprise systems, work with large-scale relational data models, and translate business requirements into reliable reporting solutions. It also enhanced my stakeholder communication and data-driven problem-solving skills.",
+      },
+    }
   },
   {
     label: "Work",
-    title: "Web Developer",
-    company_name: "Shopify",
-    icon: shopify,
+    title: "PUBLIC SECTOR TAX PLATFORM",
+    company_name: "Government Digital Services",
+    icon: tax,
+    iconSize: "115%",
     iconBg: "#383E56",
-    date: "Jan 2022 - Jan 2023",
-    showOnTimeline: "01/2022",
+    date: "Sep 2023 - Oct 2026",
+    showOnTimeline: "09/2023",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "React • TypeScript • Zustand",
+      "Large-scale frontend platform supporting " +
+      "complex data workflows and validation processes."
     ],
+    details: {
+      overview:
+          "Worked on the frontend development of a large-scale public sector information system designed to manage complex data workflows, validation processes, and long-lived records. " +
+          "The platform required high reliability, maintainability, accessibility, and performance while supporting business-critical operations.",
+
+      whatIDid: [
+        "Developed reusable React components for large-scale frontend applications.",
+        "Built complex forms with extensive validation rules and business logic.",
+        "Implemented scalable state management using Zustand.",
+        "Integrated frontend features with multiple backend APIs and services.",
+        "Performed code reviews to improve code quality, consistency, and maintainability.",
+        "Collaborated closely with Business Analysts during story refinement and requirements analysis.",
+      ],
+
+      skills: [
+        "React",
+        "TypeScript",
+        "Zustand",
+        "Frontend Architecture",
+        "Complex Forms",
+        "API Integration",
+        "Code Reviews",
+        "Accessibility",
+        "Requirements Analysis",
+        "Agile Development",
+        "Business Process Modeling"
+      ],
+
+      bringToSoftware: {
+        text:
+            "This project strengthened my ability to design and maintain large-scale frontend applications, collaborate across technical and business teams, and deliver solutions that balance usability, performance, scalability, and maintainability within complex enterprise environments.",
+      },
+    }
+
   },
   {
     label: "Work",
@@ -212,13 +277,47 @@ const experiences = [
     icon: meta,
     iconBg: "#E6DEDD",
     date: "Jan 2023 - Present",
-    showOnTimeline: "01/2023",
+    showOnTimeline: "01/2025",
     points: [
       "Developing and maintaining web applications using React.js and other related technologies.",
       "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
       "Implementing responsive design and ensuring cross-browser compatibility.",
       "Participating in code reviews and providing constructive feedback to other developers.",
     ],
+    details: {
+      overview:
+          "Contributed to the frontend development of a large-scale public sector information system designed to manage complex data workflows, validation processes, and long-lived records. " +
+          "The platform required high reliability, maintainability, accessibility, and performance while supporting business-critical operations.",
+
+      whatIDid: [
+        "Developed reusable React components for large-scale frontend applications.",
+        "Built complex forms with extensive validation rules and business logic.",
+        "Implemented scalable state management using Zustand.",
+        "Integrated frontend features with multiple backend APIs and services.",
+        "Performed code reviews to improve code quality, consistency, and maintainability.",
+        "Collaborated closely with Business Analysts during story refinement and requirements analysis.",
+      ],
+
+      skills: [
+        "React",
+        "TypeScript",
+        "Zustand",
+        "Frontend Architecture",
+        "Complex Forms",
+        "API Integration",
+        "Code Reviews",
+        "Accessibility",
+        "Requirements Analysis",
+        "Agile Development",
+        "Enterprise Applications",
+      ],
+
+      bringToSoftware: {
+        text:
+            "This project strengthened my ability to design and maintain large-scale frontend applications, collaborate across technical and business teams, and deliver solutions that balance usability, performance, scalability, and maintainability within complex enterprise environments.",
+      },
+    }
+
   },
 ];
 
