@@ -55,11 +55,13 @@ const services = [
     icon: years4,
   },
   {
-    title: "Master's Degree",
+    title: "Master's Degree\n" + "in Software Engineering\n",
     icon: education,
   },
   {
-    title: "Mentoring & Education",
+    title: "3+ Years of\n" +
+        "Mentoring &\n" +
+        "Teaching",
     icon: mentoring,
   },
 ];

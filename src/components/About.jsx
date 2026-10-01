@@ -21,9 +21,9 @@ const ServiceCard = ({icon, title, index}) => {
           className='w-full h-full green-pink-gradient p-px rounded-[20px] shadow-card'
         >
           {/* Top-aligned so icons and titles share the same offsets across cards, regardless of title length */}
-          <div className="bg-tertiary rounded-[20px] h-full pt-12 pb-8 px-8 min-h-[280px] flex justify-start items-center flex-col">
+          <div className="bg-tertiary rounded-[20px] h-full pt-12 pb-8 px-4 min-h-[280px] flex justify-start items-center flex-col">
             <img src={icon} alt={title} className='w-20 h-20 object-contain shrink-0' />
-            <h3 className='mt-8 text-white text-[20px] font-bold text-center'>{title}</h3>
+            <h3 className='mt-8 text-white text-[18px] xl:text-[20px] font-bold text-center text-balance'>{title}</h3>
           </div>
         </motion.div>
       </Tilt>
@@ -114,8 +114,16 @@ const About = () => {
 
     <JourneyTimeline />
 
+    <motion.p
+      variants={fadeIn('', '', 0.2, 1)}
+      className={`${styles.sectionSubText} mt-20 flex items-center gap-3`}
+    >
+      <span aria-hidden='true' className='h-px w-8 bg-[#915eff]' />
+      AT A GLANCE
+    </motion.p>
+
     {/* auto-rows-fr + h-full chain keeps all four cards the same width and height */}
-    <div className='mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-10'>
+    <div className='mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 auto-rows-fr gap-8'>
       {services.map((service, index) => (
           <ServiceCard key={service.title} index={index} {...service} />
       ))}
