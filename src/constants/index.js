@@ -121,26 +121,33 @@ const technologies = [
   },
 ];
 
+// Timeline entries. `showOnTimeline` (MM/YYYY) decides where the card sits on the timeline:
+// work experiences and contributions are merged and sorted by it (oldest first).
+// `label` is the small text above the card title (e.g. "Work", "Freelance", "Internship").
+// Work experiences are shown on the left side of the timeline
 const experiences = [
   {
-    title: "React.js Developer",
-    company_name: "Starbucks",
+    label: "CAREER FOUNDATION",
+    title: "DESIGN & LEADERSHIP",
+    company_name: "Furniture Industry",
     icon: starbucks,
     iconBg: "#383E56",
-    date: "March 2020 - April 2021",
+    date: "2003 - 2022",
+    showOnTimeline: "03/2003",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Built nearly two decades of experience\n" +
+      "in 3D design, operations, logistics,\n" +
+      "and team leadership."
     ],
   },
   {
+    label: "Work",
     title: "React Native Developer",
     company_name: "Tesla",
     icon: tesla,
     iconBg: "#E6DEDD",
     date: "Jan 2021 - Feb 2022",
+    showOnTimeline: "01/2021",
     points: [
       "Developing and maintaining web applications using React.js and other related technologies.",
       "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
@@ -149,11 +156,13 @@ const experiences = [
     ],
   },
   {
+    label: "Work",
     title: "Web Developer",
     company_name: "Shopify",
     icon: shopify,
     iconBg: "#383E56",
     date: "Jan 2022 - Jan 2023",
+    showOnTimeline: "01/2022",
     points: [
       "Developing and maintaining web applications using React.js and other related technologies.",
       "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
@@ -162,16 +171,50 @@ const experiences = [
     ],
   },
   {
+    label: "Work",
     title: "Full stack Developer",
     company_name: "Meta",
     icon: meta,
     iconBg: "#E6DEDD",
     date: "Jan 2023 - Present",
+    showOnTimeline: "01/2023",
     points: [
       "Developing and maintaining web applications using React.js and other related technologies.",
       "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
       "Implementing responsive design and ensuring cross-browser compatibility.",
       "Participating in code reviews and providing constructive feedback to other developers.",
+    ],
+  },
+];
+
+// Everything done outside the work projects (mentoring, teaching, community, open source...).
+// Same structure as `experiences`; shown on the right side of the timeline.
+// TODO: replace these placeholder entries with real contributions
+const contributions = [
+  {
+    label: "Contribution",
+    title: "Mentor",
+    company_name: "Organization name",
+    icon: mentoring,
+    iconBg: "#383E56",
+    date: "June 2021 - Present",
+    showOnTimeline: "06/2021",
+    points: [
+      "Describe the mentoring work here.",
+      "Add the impact or results here.",
+    ],
+  },
+  {
+    label: "Contribution",
+    title: "Technical Trainer",
+    company_name: "Organization name",
+    icon: education,
+    iconBg: "#E6DEDD",
+    date: "Sep 2022 - Present",
+    showOnTimeline: "09/2022",
+    points: [
+      "Describe the courses or workshops here.",
+      "Add the number of students or topics here.",
     ],
   },
 ];
@@ -269,4 +312,4 @@ const projects = [
   },
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export { services, technologies, experiences, contributions, testimonials, projects };
