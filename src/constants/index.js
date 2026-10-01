@@ -23,6 +23,10 @@ import {
   jobit,
   tripguide,
   threejs,
+  years20,
+  years4,
+  education,
+  mentoring
 } from "../assets";
 
 export const navLinks = [
@@ -42,20 +46,21 @@ export const navLinks = [
 
 const services = [
   {
-    title: "Web Developer",
-    icon: web,
+    title: "20+\n" +
+        "Years of Design & Leadership",
+    icon: years20,
   },
   {
-    title: "React Native Developer",
-    icon: mobile,
+    title: "4+ Years Software Engineering",
+    icon: years4,
   },
   {
-    title: "Backend Developer",
-    icon: backend,
+    title: "Master's Degree",
+    icon: education,
   },
   {
-    title: "Content Creator",
-    icon: creator,
+    title: "Mentoring & Education",
+    icon: mentoring,
   },
 ];
 

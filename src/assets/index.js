@@ -3,6 +3,10 @@ import backend from "./backend.png";
 import creator from "./creator.png";
 import mobile from "./mobile.png";
 import web from "./web.png";
+import years20 from "./years20.png";
+import years4 from "./years4.png";
+import education from "./education.png";
+import mentoring from "./mentoring.png";
 import github from "./github.png";
 import menu from "./menu.svg";
 import close from "./close.svg";
@@ -59,4 +63,8 @@ export {
   carrent,
   jobit,
   tripguide,
+  years20,
+  years4,
+  education,
+  mentoring
 };

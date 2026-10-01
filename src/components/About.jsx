@@ -10,7 +10,7 @@ import SectionWrapper from '../hoc/SectionWrapper'
 const ServiceCard = ({icon, title, index}) => {
   return (
       <Tilt
-        className='xs:w-[250px] w-full'
+        className='w-full h-full'
         tiltMaxAngleX={45}
         tiltMaxAngleY={45}
         scale={1}
@@ -18,11 +18,12 @@ const ServiceCard = ({icon, title, index}) => {
       >
         <motion.div
           variants={fadeIn("right", "spring", 0.5 * index, 0.75)}
-          className='w-full green-pink-gradient p-px rounded-[20px] shadow-card'
+          className='w-full h-full green-pink-gradient p-px rounded-[20px] shadow-card'
         >
-          <div className="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
-            <img src={icon} alt={title} className='w-16 h-16 object-contain' />
-            <h3 className='text-white text-[20px] font-bold text-center'>{title}</h3>
+          {/* Top-aligned so icons and titles share the same offsets across cards, regardless of title length */}
+          <div className="bg-tertiary rounded-[20px] h-full pt-12 pb-8 px-8 min-h-[280px] flex justify-start items-center flex-col">
+            <img src={icon} alt={title} className='w-20 h-20 object-contain shrink-0' />
+            <h3 className='mt-8 text-white text-[20px] font-bold text-center'>{title}</h3>
           </div>
         </motion.div>
       </Tilt>
@@ -113,7 +114,8 @@ const About = () => {
 
     <JourneyTimeline />
 
-    <div className='mt-20 flex flex-wrap gap-10'>
+    {/* auto-rows-fr + h-full chain keeps all four cards the same width and height */}
+    <div className='mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-10'>
       {services.map((service, index) => (
           <ServiceCard key={service.title} index={index} {...service} />
       ))}
