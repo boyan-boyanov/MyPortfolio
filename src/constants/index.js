@@ -16,7 +16,7 @@ import {
   figma,
   docker,
   meta,
-  starbucks,
+  furniture,
   tesla,
   shopify,
   carrent,
@@ -124,13 +124,16 @@ const technologies = [
 // Timeline entries. `showOnTimeline` (MM/YYYY) decides where the card sits on the timeline:
 // work experiences and contributions are merged and sorted by it (oldest first).
 // `label` is the small text above the card title (e.g. "Work", "Freelance", "Internship").
+// `iconSize` (optional) is the icon size inside the timeline circle: "60%" by default, "100%" fills it,
+// above 100% zooms in (e.g. "130%") and everything outside the circle is clipped.
 // Work experiences are shown on the left side of the timeline
 const experiences = [
   {
     label: "CAREER FOUNDATION",
     title: "DESIGN & LEADERSHIP",
     company_name: "Furniture Industry",
-    icon: starbucks,
+    icon: furniture,
+    iconSize: "129%",
     iconBg: "#383E56",
     date: "2003 - 2022",
     showOnTimeline: "03/2003",

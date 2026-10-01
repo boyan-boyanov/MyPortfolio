@@ -9,6 +9,8 @@ import { textVariant } from '../utils/motion'
 import SectionWrapper from '../hoc/SectionWrapper'
 
 const CARD_BG = '#1d1836'
+// Icon size inside the timeline circle; an entry can override it with `iconSize` (e.g. "100%" to fill the circle)
+const DEFAULT_ICON_SIZE = '60%'
 
 // "MM/YYYY" -> sortable number of months. Invalid or missing dates go to the end of the timeline
 const toMonths = (value) => {
@@ -37,11 +39,14 @@ const ExperienceCard = ({ experience }) => {
       date={experience.date}
       iconStyle={{ background: experience.iconBg }}
       icon={
-        <div className='flex justify-center items-center w-full h-full'>
+        // overflow-hidden clips the image to the circle (iconSize can go above 100% to zoom in)
+        <div className='flex justify-center items-center w-full h-full rounded-full overflow-hidden'>
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className='w-[60%] h-[60%] object-contain'
+            style={{ width: experience.iconSize ?? DEFAULT_ICON_SIZE, height: experience.iconSize ?? DEFAULT_ICON_SIZE }}
+            // max-w-none + shrink-0 allow sizes above 100%; the wrapper clips everything outside the circle
+            className='object-contain max-w-none shrink-0'
           />
         </div>
       }
