@@ -120,11 +120,11 @@
   }
 
   .motion-scroller-container{
-    bottom: 28rem; /* Tailwind bottom-32 = 8rem */
+    bottom: 11.5rem; /* Tailwind bottom-32 = 8rem */
   }
 }
 
-@media (min-width: 840px) {
+@media (min-width: 640px) {
     .hero-inner {
         padding-left: 4rem;
         padding-right: 4rem;
@@ -147,7 +147,7 @@
   }
 
   .motion-scroller-container{
-    bottom: 14.5rem; /* Tailwind bottom-70 = 17.5rem */
+    bottom: 2.5rem; /* Tailwind bottom-70 = 17.5rem */
   }
 }
 

@@ -84,7 +84,7 @@ const About = () => {
   return (
     <>
     {/* Pulls the section up toward the hero: -410px on mobile, -210px from 640px (sm) up */}
-    <motion.div variants={textVariant()} className='-mt-[410px] sm:-mt-[210px]'>
+    <motion.div variants={textVariant()}>
       <p className={`${styles.sectionSubText} flex items-center gap-3`}>
         <span aria-hidden='true' className='h-px w-8 bg-[#915eff]' />
         FROM DESIGN TO CODE
