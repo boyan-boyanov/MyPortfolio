@@ -11,7 +11,7 @@ const Hero = () => {
     
     useEffect(()=>{
       //Add a listener for changes to the screen size
-      const mediaQuert = window.matchMedia('(max-width: 640px)')
+      const mediaQuert = window.matchMedia('(max-width: 840px)')
   
       //set the initial value of the "isMobile" state variable
       setIsMobile(mediaQuert.matches)

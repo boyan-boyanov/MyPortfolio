@@ -120,11 +120,11 @@
   }
 
   .motion-scroller-container{
-    bottom: 11.5rem
+    bottom: 28rem; /* Tailwind bottom-32 = 8rem */
   }
 }
 
-@media (min-width: 640px) {
+@media (min-width: 840px) {
     .hero-inner {
         padding-left: 4rem;
         padding-right: 4rem;
@@ -147,7 +147,7 @@
   }
 
   .motion-scroller-container{
-    bottom: 2.5rem
+    bottom: 14.5rem; /* Tailwind bottom-70 = 17.5rem */
   }
 }
 

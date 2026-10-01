@@ -45,12 +45,21 @@ const journey = [
   { step: '04', title: 'Mentoring & Education', detail: 'Supporting aspiring engineers' },
 ]
 
+// Length of the horizontal timeline (desktop/tablet). Any CSS width works:
+// '100%' = full section width (same as the cards row), or e.g. '1000px', '80%'
+const TIMELINE_MAX_WIDTH = '95%'
+
+// How far the purple story bar extends below its last paragraph (into the gap before the next one).
+// '0px' = ends exactly at the text; positive values make it longer, negative values shorter
+const STORY_BAR_EXTEND = '35px'
+
 // Understated milestone strip: vertical on mobile, horizontal from sm up
 const JourneyTimeline = () => (
   <motion.ol
     variants={fadeIn('', '', 0.6, 1)}
     aria-label='Career journey'
-    className='relative mt-16 sm:mt-20 grid gap-8 sm:grid-cols-4 sm:gap-8 max-w-[900px]'
+    style={{ maxWidth: TIMELINE_MAX_WIDTH }}
+    className='relative mt-16 sm:mt-20 grid gap-8 sm:grid-cols-4 sm:gap-8'
   >
     {/* Connector line */}
     <span
@@ -74,7 +83,8 @@ const JourneyTimeline = () => (
 const About = () => {
   return (
     <>
-    <motion.div variants={textVariant()}>
+    {/* Pulls the section up toward the hero: -410px on mobile, -210px from 640px (sm) up */}
+    <motion.div variants={textVariant()} className='-mt-[410px] sm:-mt-[210px]'>
       <p className={`${styles.sectionSubText} flex items-center gap-3`}>
         <span aria-hidden='true' className='h-px w-8 bg-[#915eff]' />
         FROM DESIGN TO CODE
@@ -82,34 +92,46 @@ const About = () => {
       <h2 className={`${styles.sectionHeadText} text-[#f5f5f7]! mt-2`}>My Journey.</h2>
     </motion.div>
 
-    <div className='mt-10 sm:mt-14 max-w-[800px] space-y-6 sm:space-y-7 text-[#c8c5d8] text-[16px] sm:text-[17px] leading-[1.75]'>
-      <motion.p
-        variants={fadeIn('', '', 0.1, 1)}
-        className='text-[#e4e2ee] text-[18px] sm:text-[20px] font-medium leading-[1.6]'
-      >
-        My path to software engineering was anything but traditional.
-      </motion.p>
-      <motion.p variants={fadeIn('', '', 0.2, 1)}>
-        Before becoming a software engineer, I spent <Highlight>nearly two decades</Highlight> in{' '}
-        3D design, project coordination, logistics, and team leadership. I designed
-        furniture and living spaces, created 3D visualizations, and led teams responsible for delivering
-        projects from concept to completion.
-      </motion.p>
-      <motion.p variants={fadeIn('', '', 0.3, 1)}>
-        Technology remained a constant passion throughout my career, ultimately leading me to earn a{' '}
-        <Highlight>Master's degree in Software Engineering</Highlight> and transition into professional
-        software development.
-      </motion.p>
-      <motion.p variants={fadeIn('', '', 0.4, 1)}>
-        Today, I work primarily as a <Highlight accent>Frontend Engineer</Highlight>, building modern web
-        applications and interactive 3D experiences with <Highlight accent>Three.js</Highlight> while
-        continuing to grow toward <Highlight>full-stack development</Highlight>.
-      </motion.p>
-      <motion.p variants={fadeIn('', '', 0.5, 1)}>
-        Beyond software development, I actively contribute to <Highlight>mentoring</Highlight>,{' '}
-        technical education, and community initiatives, helping aspiring engineers
-        develop both technical skills and confidence.
-      </motion.p>
+    {/* Story block. The brand-purple bar spans only the first group (the path into software);
+        move paragraphs between the two groups to change where the bar ends */}
+    <div className='mt-10 sm:mt-14 space-y-6 sm:space-y-7 text-[#c8c5d8] text-[16px] sm:text-[17px] leading-[1.75] [&_p]:max-w-[800px]'>
+      <div className='relative pl-6 sm:pl-12 lg:pl-20 space-y-6 sm:space-y-7'>
+        <span
+          aria-hidden='true'
+          style={{ bottom: `calc(-1 * ${STORY_BAR_EXTEND})` }}
+          className='absolute left-0 -top-2.5 w-1 sm:w-1.5 rounded-full bg-[#915eff]'
+        />
+        <motion.p
+          variants={fadeIn('', '', 0.1, 1)}
+          className='text-[#e4e2ee] text-[18px] sm:text-[20px] font-medium leading-[1.6]'
+        >
+          My path to software engineering was anything but traditional.
+        </motion.p>
+        <motion.p variants={fadeIn('', '', 0.2, 1)}>
+          Before becoming a software engineer, I spent <Highlight>nearly two decades</Highlight> in{' '}
+          3D design, project coordination, logistics, and team leadership. I designed
+          furniture and living spaces, created 3D visualizations, and led teams responsible for delivering
+          projects from concept to completion.
+        </motion.p>
+        <motion.p variants={fadeIn('', '', 0.3, 1)}>
+          Technology remained a constant passion throughout my career, ultimately leading me to earn a{' '}
+          <Highlight>Master's degree in Software Engineering</Highlight> and transition into professional
+          software development.
+        </motion.p>
+        <motion.p variants={fadeIn('', '', 0.4, 1)}>
+          Today, I work primarily as a <Highlight accent>Frontend Engineer</Highlight>, building modern web
+          applications and interactive 3D experiences with <Highlight accent>Three.js</Highlight> while
+          continuing to grow toward <Highlight>full-stack development</Highlight>.
+        </motion.p>
+      </div>
+
+      <div className='pl-6 sm:pl-12 lg:pl-20 space-y-6 sm:space-y-7'>
+        <motion.p variants={fadeIn('', '', 0.5, 1)}>
+          Beyond software development, I actively contribute to <Highlight>mentoring</Highlight>,{' '}
+          technical education, and community initiatives, helping aspiring engineers
+          develop both technical skills and confidence.
+        </motion.p>
+      </div>
     </div>
 
     <JourneyTimeline />
