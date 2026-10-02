@@ -30,6 +30,13 @@ import tax from "./company/tax.png";
 import furniture from "./company/furniture.png";
 import academic from "./company/academic.png";
 import coordination from "./company/coordination.png";
+import winner from "./company/winner.png";
+
+// Images shown in the timeline "Show more" modals
+import createGame from "./createGame.png";
+import slider2 from "./slider2.png";
+import hanoi1 from "./hanoi1.png";
+import setting from "./setting.png";
 
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
@@ -68,5 +75,10 @@ export {
   years4,
   education,
   mentoring,
-  coordination
+  coordination,
+  winner,
+  createGame,
+  slider2,
+  hanoi1,
+  setting
 };

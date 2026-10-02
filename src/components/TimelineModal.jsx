@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useRef } from 'react'
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 
@@ -37,13 +37,16 @@ const sectionVariants = {
   }),
 }
 
+// `title` is optional; sections without one show only their content
 const Section = ({ title, index, children }) => (
   <motion.section variants={sectionVariants} custom={index} initial='hidden' animate='show'>
-    <h3 className='flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#a983ff]'>
-      <span aria-hidden='true' className='h-px w-6 shrink-0 bg-[#915eff]' />
-      {title}
-    </h3>
-    <div className='mt-4'>{children}</div>
+    {title && (
+      <h3 className='mb-4 flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#a983ff]'>
+        <span aria-hidden='true' className='h-px w-6 shrink-0 bg-[#915eff]' />
+        {title}
+      </h3>
+    )}
+    {children}
   </motion.section>
 )
 
@@ -74,8 +77,199 @@ const ChipList = ({ items, variant = 'tech' }) => (
   </ul>
 )
 
+const ICON_PATHS = {
+  close: 'M6 6l12 12M18 6L6 18',
+  prev: 'M15 6l-6 6 6 6',
+  next: 'M9 6l6 6-6 6',
+}
+
+const Icon = ({ name }) => (
+  <svg aria-hidden='true' viewBox='0 0 24 24' className='h-5 w-5' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <path d={ICON_PATHS[name]} />
+  </svg>
+)
+
+const LIGHTBOX_BUTTON =
+  'flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[#0d0b21]/80 text-[#e4e2ee] backdrop-blur transition-colors hover:bg-[#915eff]/25 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff]'
+
+// Swipes shorter than this (px) snap back instead of changing the image
+const SWIPE_THRESHOLD = 60
+
+// Full-screen image viewer on top of the modal. Closes on a click on the image or the backdrop,
+// the X or Escape (only the lightbox closes, the modal stays open). Arrows, swipe and the arrow keys switch images
+const Lightbox = ({ images, index, onChange, onClose }) => {
+  const reduceMotion = useReducedMotion()
+  const rootRef = useRef(null)
+  const closeRef = useRef(null)
+  const image = images[index]
+  const hasMany = images.length > 1
+  const go = (step) => onChange((index + step + images.length) % images.length)
+
+  useEffect(() => {
+    closeRef.current?.focus()
+  }, [])
+
+  // Capture phase on window runs before the modal's document listener, so these keys never reach the modal
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onClose()
+      } else if (event.key === 'ArrowRight' && hasMany) {
+        onChange((index + 1) % images.length)
+      } else if (event.key === 'ArrowLeft' && hasMany) {
+        onChange((index - 1 + images.length) % images.length)
+      } else if (event.key === 'Tab') {
+        // Keep Tab inside the lightbox
+        const focusable = [...rootRef.current.querySelectorAll('button')]
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (!rootRef.current.contains(document.activeElement)) {
+          event.preventDefault()
+          first.focus()
+        } else if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        }
+      } else {
+        return
+      }
+      event.stopPropagation()
+    }
+    window.addEventListener('keydown', handleKeyDown, true)
+    return () => window.removeEventListener('keydown', handleKeyDown, true)
+  }, [index, images.length, hasMany, onChange, onClose])
+
+  const label = `Image ${index + 1} of ${images.length}${image.alt ? `: ${image.alt}` : ''}`
+
+  return createPortal(
+    <motion.div
+      ref={rootRef}
+      role='dialog'
+      aria-modal='true'
+      aria-label={label}
+      className='fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-10'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+    >
+      {/* Darker than the modal overlay so the image stands out; a click closes the lightbox */}
+      <div aria-hidden='true' onClick={onClose} className='absolute inset-0 bg-[#03040c]/90 backdrop-blur-md cursor-zoom-out' />
+
+      <AnimatePresence mode='wait' initial={false}>
+        <motion.img
+          key={index}
+          src={image.src}
+          alt={image.alt ?? ''}
+          onClick={onClose}
+          draggable={false}
+          // Swipe left / right on touch screens to change the image
+          drag={hasMany ? 'x' : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.6}
+          onDragEnd={(_, info) => {
+            if (info.offset.x < -SWIPE_THRESHOLD) go(1)
+            else if (info.offset.x > SWIPE_THRESHOLD) go(-1)
+          }}
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
+          animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className='relative h-auto w-auto max-h-[72vh] sm:max-h-[85vh] max-w-full select-none rounded-xl border border-white/10 shadow-[0_30px_100px_-20px_rgba(145,94,255,0.45)] cursor-zoom-out touch-pan-y'
+        />
+      </AnimatePresence>
+
+      <button ref={closeRef} type='button' onClick={onClose} aria-label='Close image' className={`${LIGHTBOX_BUTTON} absolute right-4 top-4`}>
+        <Icon name='close' />
+      </button>
+
+      {/* Phones: arrows sit at the bottom next to the counter so they never cover the image */}
+      {hasMany && (
+        <>
+          <button
+            type='button'
+            onClick={() => go(-1)}
+            aria-label='Previous image'
+            className={`${LIGHTBOX_BUTTON} absolute bottom-3 left-4 sm:bottom-auto sm:left-6 sm:top-1/2 sm:-translate-y-1/2`}
+          >
+            <Icon name='prev' />
+          </button>
+          <button
+            type='button'
+            onClick={() => go(1)}
+            aria-label='Next image'
+            className={`${LIGHTBOX_BUTTON} absolute bottom-3 right-4 sm:bottom-auto sm:right-6 sm:top-1/2 sm:-translate-y-1/2`}
+          >
+            <Icon name='next' />
+          </button>
+          <p className='absolute bottom-[22px] left-1/2 -translate-x-1/2 rounded-full sm:bottom-4 bg-[#0d0b21]/80 px-3 py-1 text-[13px] font-medium text-[#c8c5d8]'>
+            {index + 1} / {images.length}
+          </p>
+        </>
+      )}
+    </motion.div>,
+    document.body
+  )
+}
+
+// Thumbnails side by side (2 per row on phones, 4 from sm up). A click opens the image in the lightbox
+const ImageStrip = ({ images }) => {
+  const [openIndex, setOpenIndex] = useState(null)
+  const thumbRefs = useRef([])
+  const lastShown = useRef(null)
+
+  useEffect(() => {
+    if (openIndex !== null) lastShown.current = openIndex
+  }, [openIndex])
+
+  // Focus goes back to the thumbnail of the image that was shown last
+  const close = useCallback(() => {
+    setOpenIndex(null)
+    thumbRefs.current[lastShown.current]?.focus()
+  }, [])
+
+  return (
+    <>
+      <ul className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
+        {images.map((image, index) => (
+          <li key={`${image.src}-${index}`}>
+            <button
+              ref={(element) => {
+                thumbRefs.current[index] = element
+              }}
+              type='button'
+              aria-haspopup='dialog'
+              onClick={() => setOpenIndex(index)}
+              aria-label={`Open image: ${image.alt ?? index + 1}`}
+              className='group block w-full cursor-zoom-in overflow-hidden rounded-xl border border-white/10 bg-black/30 transition-colors hover:border-[#915eff]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff]'
+            >
+              <img
+                src={image.src}
+                alt=''
+                loading='lazy'
+                // Equal tiles cropped from the top (keeps the screenshot titles visible)
+                className='block aspect-[4/3] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]'
+              />
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <AnimatePresence>
+        {openIndex !== null && (
+          <Lightbox key='lightbox' images={images} index={openIndex} onChange={setOpenIndex} onClose={close} />
+        )}
+      </AnimatePresence>
+    </>
+  )
+}
+
+// whitespace-pre-line: a "\n" in the text starts a new line, "\n\n" leaves an empty line between paragraphs
 const Paragraph = ({ children }) => (
-  <p className='text-[15px] sm:text-[16px] leading-[1.75] text-[#c8c5d8]'>{children}</p>
+  <p className='whitespace-pre-line text-[15px] sm:text-[16px] leading-[1.75] text-[#c8c5d8]'>{children}</p>
 )
 
 // The bullet-list section per timeline side: its title and which `details` field it reads.
@@ -96,32 +290,19 @@ const ModalContent = ({ item, onClose }) => {
   // Entries without that field still get a useful modal: their card points are shown instead
   const listItems = details[listSection.field] ?? item.points ?? []
   const bring = details.bringToSoftware ?? {}
-  // Story order: Overview -> What I did -> Skills developed -> What I bring into software engineering
+  // Story order: Overview -> (images) -> What I did / Responsibilities -> Skills developed -> What I bring
   const sections = [
-    details.overview && { title: 'Overview', body: <Paragraph>{details.overview}</Paragraph> },
-    listItems.length > 0 && { title: listSection.title, body: <BulletList items={listItems} /> },
-    details.skills?.length > 0 && { title: 'Skills Developed', body: <ChipList items={details.skills} variant='tech' /> },
+    details.overview && { key: 'overview', title: 'Overview', body: <Paragraph>{details.overview}</Paragraph> },
+    details.images?.length > 0 && { key: 'images', title: 'Project Showcase', body: <ImageStrip images={details.images} /> },
+    listItems.length > 0 && { key: 'list', title: listSection.title, body: <BulletList items={listItems} /> },
+    details.skills?.length > 0 && { key: 'skills', title: 'Skills Developed', body: <ChipList items={details.skills} variant='tech' /> },
     (bring.text || bring.skills?.length > 0) && {
+      key: 'bring',
       title: 'What I Bring Into Software Engineering',
       body: (
         <div className='space-y-4'>
           {bring.text && <Paragraph>{bring.text}</Paragraph>}
           {bring.skills?.length > 0 && <ChipList items={bring.skills} variant='accent' />}
-        </div>
-      ),
-    },
-    details.gallery?.length > 0 && {
-      title: 'Gallery',
-      body: (
-        <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4'>
-          {details.gallery.map((image) => (
-            <figure key={image.src} className='overflow-hidden rounded-xl border border-white/10 bg-white/5'>
-              <img src={image.src} alt={image.alt ?? ''} loading='lazy' className='aspect-[4/3] w-full object-cover' />
-              {image.caption && (
-                <figcaption className='px-3 py-2 text-[13px] leading-[1.5] text-[#b9b6cb]'>{image.caption}</figcaption>
-              )}
-            </figure>
-          ))}
         </div>
       ),
     },
@@ -250,7 +431,7 @@ const ModalContent = ({ item, onClose }) => {
 
           <div className='mt-8 space-y-10'>
             {sections.map((section, index) => (
-              <Section key={section.title} title={section.title} index={index}>
+              <Section key={section.key} title={section.title} index={index}>
                 {section.body}
               </Section>
             ))}

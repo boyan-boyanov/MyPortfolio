@@ -23,7 +23,11 @@ import {
   years4,
   education,
   mentoring,
-  coordination
+  coordination,
+  createGame,
+  slider2,
+  hanoi1,
+  setting, winner
 } from "../assets";
 
 export const navLinks = [
@@ -126,7 +130,8 @@ const technologies = [
 // `details` (optional) fills the "Show more" modal; every part is optional and empty parts are hidden:
 //   overview: "text", whatIDid: [...] (work) / responsibilities: [...] (contributions), skills: [...],
 //   bringToSoftware: { text: "paragraph", skills: [...] },
-//   gallery: [{ src: importedImage, alt: "...", caption: "..." }]
+//   images: [{ src: importedImage, alt: "..." }] - thumbnails shown before the bullet list,
+//     in this order; click one to enlarge it, click again to shrink it
 // Without `whatIDid` / `responsibilities` the modal shows the card `points` instead.
 // Work experiences are shown on the left side of the timeline
 const experiences = [
@@ -373,48 +378,50 @@ const contributions = [
     label: "INNOVATION",
     title: "INTERACTIVE EVENT PLATFORM",
     company_name: "1st Place Hackathon Winner",
-    icon: education,
+    icon: winner,
+    iconSize: "118%",
     iconBg: "#E6DEDD",
     date: "Nov 2024 - April 2025",
     showOnTimeline: "11/2024",
     points: [
-      "Interactive event platform designed to " +
-      "increase engagement and collect structured " +
-      "participant feedback.",
+      "Interactive event platform combining QR-based " +
+      "participation, configurable games, and survey-driven " +
+      "participant insights.",
     ],
     details: {
+      // Order and number of the modal images
+      images: [
+        { src: createGame, alt: "Configuring a game in the event platform" },
+        { src: slider2, alt: "Slider game screen" },
+        { src: hanoi1, alt: "Tower of Hanoi game screen" },
+        { src: setting, alt: "Settings screen" },
+      ],
       overview:
           "Built an interactive event platform during a company hackathon, combining " +
-          "configurable games, QR-based onboarding, and participant feedback collection. " +
-          "The solution was awarded 1st place.",
+          "configurable games, QR-based onboarding, survey management, and participant " +
+          "feedback collection. The solution was awarded 1st place." + "\n\n" +
+          "The platform combined configurable games, QR-based onboarding, and customizable survey workflows " +
+          "to help increase engagement while collecting structured participant feedback.",
 
       responsibilities: [
-        "Designed frontend architecture using React and Zustand.",
-        "Built configurable game and feedback workflows.",
+        "Built configurable game, survey, and feedback collection workflows.",
         "Implemented QR-based onboarding and participant tracking.",
         "Collaborated on UI/UX, APIs, and product ideation.",
       ],
 
       skills: [
         "React",
-        "TypeScript",
-        "Zustand",
         "Frontend Architecture",
         "UI/UX Design",
         "Gamification",
-        "QR-based Workflows",
-        "API Integration",
-        "Unit Testing",
-        "Product Ideation",
         "Rapid Prototyping",
-        "Team Collaboration",
+        "Unit Testing",
       ],
 
       bringToSoftware: {
         text:
             "This project strengthened my ability to rapidly transform ideas into working products, " +
-            "design engaging user experiences, and deliver solutions under tight deadlines while balancing " +
-            "technical implementation, usability, and business objectives."
+            "design engaging user experiences, and deliver solutions under tight deadlines."
       },
     }
   },
