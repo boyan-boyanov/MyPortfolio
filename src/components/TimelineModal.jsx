@@ -78,10 +78,11 @@ const Paragraph = ({ children }) => (
   <p className='text-[15px] sm:text-[16px] leading-[1.75] text-[#c8c5d8]'>{children}</p>
 )
 
-// Title of the "What I did" section per timeline side: work (left) / contribution (right)
-const WHAT_I_DID_TITLES = {
-  work: 'What I Did',
-  contribution: 'Responsibilities',
+// The bullet-list section per timeline side: its title and which `details` field it reads.
+// work (left) -> "What I Did" from details.whatIDid; contribution (right) -> "Responsibilities" from details.responsibilities
+const LIST_SECTIONS = {
+  work: { title: 'What I Did', field: 'whatIDid' },
+  contribution: { title: 'Responsibilities', field: 'responsibilities' },
 }
 
 const ModalContent = ({ item, onClose }) => {
@@ -91,13 +92,14 @@ const ModalContent = ({ item, onClose }) => {
   const titleId = useId()
 
   const details = item.details ?? {}
-  // Entries without `details` still get a useful modal: their card points become "What I did"
-  const whatIDid = details.whatIDid ?? item.points ?? []
+  const listSection = LIST_SECTIONS[item.type] ?? LIST_SECTIONS.work
+  // Entries without that field still get a useful modal: their card points are shown instead
+  const listItems = details[listSection.field] ?? item.points ?? []
   const bring = details.bringToSoftware ?? {}
   // Story order: Overview -> What I did -> Skills developed -> What I bring into software engineering
   const sections = [
     details.overview && { title: 'Overview', body: <Paragraph>{details.overview}</Paragraph> },
-    whatIDid.length > 0 && { title: WHAT_I_DID_TITLES[item.type] ?? WHAT_I_DID_TITLES.work, body: <BulletList items={whatIDid} /> },
+    listItems.length > 0 && { title: listSection.title, body: <BulletList items={listItems} /> },
     details.skills?.length > 0 && { title: 'Skills Developed', body: <ChipList items={details.skills} variant='tech' /> },
     (bring.text || bring.skills?.length > 0) && {
       title: 'What I Bring Into Software Engineering',

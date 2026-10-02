@@ -124,10 +124,10 @@ const technologies = [
 // `iconSize` (optional) is the icon size inside the timeline circle: "60%" by default, "100%" fills it,
 // above 100% zooms in (e.g. "130%") and everything outside the circle is clipped.
 // `details` (optional) fills the "Show more" modal; every part is optional and empty parts are hidden:
-//   overview: "text", whatIDid: [...], skills: [...],
+//   overview: "text", whatIDid: [...] (work) / responsibilities: [...] (contributions), skills: [...],
 //   bringToSoftware: { text: "paragraph", skills: [...] },
 //   gallery: [{ src: importedImage, alt: "...", caption: "..." }]
-// Without `details.whatIDid` the modal shows the card `points` instead.
+// Without `whatIDid` / `responsibilities` the modal shows the card `points` instead.
 // Work experiences are shown on the left side of the timeline
 const experiences = [
   {
@@ -341,15 +341,7 @@ const contributions = [
       overview:
           "Led the delivery of an internal parking reservation platform that began as a learning initiative and evolved into a production-ready solution actively used within the organization.",
 
-      myResponsibilities: [
-        "Defined requirements, priorities, and product vision as Product Owner.",
-        "Performed business analysis and translated business needs into functional requirements.",
-        "Facilitated team collaboration and delivery activities.",
-        "Coordinated testing and quality assurance efforts.",
-        "Contributed to solution design and implementation using Microsoft Power Platform technologies.",
-      ],
-
-      leadershipImpact: [
+      responsibilities: [
         "Provided end-to-end ownership throughout the project lifecycle.",
         "Mentored a participant from the Dandelion program during delivery.",
         "Helped establish structured workflows and collaboration practices.",
@@ -378,17 +370,53 @@ const contributions = [
     }
   },
   {
-    label: "Contribution",
-    title: "Technical Trainer",
-    company_name: "Organization name",
+    label: "INNOVATION",
+    title: "INTERACTIVE EVENT PLATFORM",
+    company_name: "1st Place Hackathon Winner",
     icon: education,
     iconBg: "#E6DEDD",
-    date: "Sep 2022 - Present",
-    showOnTimeline: "09/2022",
+    date: "Nov 2024 - April 2025",
+    showOnTimeline: "11/2024",
     points: [
-      "Describe the courses or workshops here.",
-      "Add the number of students or topics here.",
+      "Interactive event platform designed to " +
+      "increase engagement and collect structured " +
+      "participant feedback.",
     ],
+    details: {
+      overview:
+          "Built an interactive event platform during a company hackathon, combining " +
+          "configurable games, QR-based onboarding, and participant feedback collection. " +
+          "The solution was awarded 1st place.",
+
+      responsibilities: [
+        "Designed frontend architecture using React and Zustand.",
+        "Built configurable game and feedback workflows.",
+        "Implemented QR-based onboarding and participant tracking.",
+        "Collaborated on UI/UX, APIs, and product ideation.",
+      ],
+
+      skills: [
+        "React",
+        "TypeScript",
+        "Zustand",
+        "Frontend Architecture",
+        "UI/UX Design",
+        "Gamification",
+        "QR-based Workflows",
+        "API Integration",
+        "Unit Testing",
+        "Product Ideation",
+        "Rapid Prototyping",
+        "Team Collaboration",
+      ],
+
+      bringToSoftware: {
+        text:
+            "This project strengthened my ability to rapidly transform ideas into working products, " +
+            "design engaging user experiences, and deliver solutions under tight deadlines while balancing " +
+            "technical implementation, usability, and business objectives."
+      },
+    }
   },
 ];
 
