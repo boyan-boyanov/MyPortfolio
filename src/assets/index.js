@@ -29,6 +29,7 @@ import meta from "./company/meta.png";
 import tax from "./company/tax.png";
 import furniture from "./company/furniture.png";
 import academic from "./company/academic.png";
+import coordination from "./company/coordination.png";
 
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
@@ -66,5 +67,6 @@ export {
   years20,
   years4,
   education,
-  mentoring
+  mentoring,
+  coordination
 };

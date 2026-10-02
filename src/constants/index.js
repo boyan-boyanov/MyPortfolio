@@ -22,7 +22,8 @@ import {
   years20,
   years4,
   education,
-  mentoring
+  mentoring,
+  coordination
 } from "../assets";
 
 export const navLinks = [
@@ -325,15 +326,16 @@ const contributions = [
     label: "LEADERSHIP",
     title: "WORKPLACE PARKING PLATFORM",
     company_name: "Product Ownership & Delivery",
-    icon: mentoring,
+    icon: coordination,
     iconSize: "115%",
     iconBg: "#383E56",
     date: "Jan 2024 - Jun 2024",
     showOnTimeline: "01/2024",
     points: [
-      "Product ownership and business analysis for an " +
-      "internal parking reservation platform that evolved " +
-      "from a training initiative into production use",
+      "Product ownership and roadmap definition.",
+      "Business analysis and requirements gathering.",
+      "Delivery coordination, testing, and quality assurance.",
+      "Mentoring and team support throughout development.",
     ],
     details: {
       overview:

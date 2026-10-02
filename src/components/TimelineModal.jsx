@@ -78,6 +78,12 @@ const Paragraph = ({ children }) => (
   <p className='text-[15px] sm:text-[16px] leading-[1.75] text-[#c8c5d8]'>{children}</p>
 )
 
+// Title of the "What I did" section per timeline side: work (left) / contribution (right)
+const WHAT_I_DID_TITLES = {
+  work: 'What I Did',
+  contribution: 'Responsibilities',
+}
+
 const ModalContent = ({ item, onClose }) => {
   const reduceMotion = useReducedMotion()
   const dialogRef = useRef(null)
@@ -91,7 +97,7 @@ const ModalContent = ({ item, onClose }) => {
   // Story order: Overview -> What I did -> Skills developed -> What I bring into software engineering
   const sections = [
     details.overview && { title: 'Overview', body: <Paragraph>{details.overview}</Paragraph> },
-    whatIDid.length > 0 && { title: 'What I Did', body: <BulletList items={whatIDid} /> },
+    whatIDid.length > 0 && { title: WHAT_I_DID_TITLES[item.type] ?? WHAT_I_DID_TITLES.work, body: <BulletList items={whatIDid} /> },
     details.skills?.length > 0 && { title: 'Skills Developed', body: <ChipList items={details.skills} variant='tech' /> },
     (bring.text || bring.skills?.length > 0) && {
       title: 'What I Bring Into Software Engineering',
