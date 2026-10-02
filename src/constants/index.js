@@ -1,8 +1,4 @@
 import {
-  mobile,
-  backend,
-  creator,
-  web,
   javascript,
   typescript,
   html,
@@ -251,7 +247,7 @@ const experiences = [
 
       skills: [
         "React",
-        "TypeScript",
+        "JS-Split",
         "Zustand",
         "Frontend Architecture",
         "Complex Forms",
@@ -326,17 +322,58 @@ const experiences = [
 // TODO: replace these placeholder entries with real contributions
 const contributions = [
   {
-    label: "Contribution",
-    title: "Mentor",
-    company_name: "Organization name",
+    label: "LEADERSHIP",
+    title: "WORKPLACE PARKING PLATFORM",
+    company_name: "Product Ownership & Delivery",
     icon: mentoring,
+    iconSize: "115%",
     iconBg: "#383E56",
-    date: "June 2021 - Present",
-    showOnTimeline: "06/2021",
+    date: "Jan 2024 - Jun 2024",
+    showOnTimeline: "01/2024",
     points: [
-      "Describe the mentoring work here.",
-      "Add the impact or results here.",
+      "Product ownership and business analysis for an " +
+      "internal parking reservation platform that evolved " +
+      "from a training initiative into production use",
     ],
+    details: {
+      overview:
+          "Led the delivery of an internal parking reservation platform that began as a learning initiative and evolved into a production-ready solution actively used within the organization.",
+
+      myResponsibilities: [
+        "Defined requirements, priorities, and product vision as Product Owner.",
+        "Performed business analysis and translated business needs into functional requirements.",
+        "Facilitated team collaboration and delivery activities.",
+        "Coordinated testing and quality assurance efforts.",
+        "Contributed to solution design and implementation using Microsoft Power Platform technologies.",
+      ],
+
+      leadershipImpact: [
+        "Provided end-to-end ownership throughout the project lifecycle.",
+        "Mentored a participant from the Dandelion program during delivery.",
+        "Helped establish structured workflows and collaboration practices.",
+        "Supported the transition from learning initiative to production adoption.",
+      ],
+
+      skills: [
+        "Product Ownership",
+        "Business Analysis",
+        "Requirements Gathering",
+        "Scrum",
+        "Team Leadership",
+        "Stakeholder Communication",
+        "Quality Assurance",
+        "Power Apps",
+        "SharePoint",
+        "Mentoring",
+      ],
+
+      bringToSoftware: {
+        text:
+            "This project strengthened my ability to bridge business and technical perspectives, " +
+            "lead multidisciplinary teams, and guide solutions from idea to successful adoption while supporting " +
+            "team growth and knowledge sharing.",
+      },
+    }
   },
   {
     label: "Contribution",
