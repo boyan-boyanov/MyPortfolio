@@ -1,0 +1,73 @@
+/* One column (below the library's 1170px breakpoint): the date goes in the card's top row,
+   next to the label, instead of the library's spot under the card body */
+@media only screen and (max-width: 1169px) {
+  .vertical-timeline-element-content .vertical-timeline-element-date {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .timeline-card-date {
+    display: none;
+  }
+}
+
+/* Contribution entries on the timeline: card and circle 15% smaller than work entries.
+   CONTRIBUTION SIZE: change --contribution-scale (1 = same size as work entries) */
+.timeline-contribution {
+  --contribution-scale: 0.85;
+}
+
+/* Text, spacing and button inside the card shrink together */
+.timeline-contribution .timeline-card-body {
+  zoom: var(--contribution-scale);
+}
+
+/* Phones and tablets (one column): circle 40px -> smaller, kept centered on the line */
+.timeline-contribution .vertical-timeline-element-icon {
+  --icon-size: calc(40px * var(--contribution-scale));
+  width: var(--icon-size);
+  height: var(--icon-size);
+  top: calc((40px - var(--icon-size)) / 2);
+  left: calc((40px - var(--icon-size)) / 2);
+}
+
+.timeline-contribution .vertical-timeline-element-content {
+  width: calc((100% - 60px) * var(--contribution-scale));
+}
+
+/* Wide screens (two columns, same breakpoint as the timeline library) */
+@media only screen and (min-width: 1170px) {
+  /* Circle 60px -> smaller, kept centered on the line and level with the card arrow */
+  .vertical-timeline--two-columns .timeline-contribution .vertical-timeline-element-icon {
+    --icon-size: calc(60px * var(--contribution-scale));
+    top: calc((60px - var(--icon-size)) / 2);
+    left: 50%;
+    margin-left: calc(var(--icon-size) / -2);
+  }
+
+  /* Work cards are 44% wide and touch the circle; contribution cards are narrower
+     but still end at the same spot next to the circle */
+  .vertical-timeline--two-columns .timeline-contribution .vertical-timeline-element-content {
+    --card-width: calc(44% * var(--contribution-scale));
+    width: var(--card-width);
+    margin-left: calc(44% - var(--card-width));
+    padding: calc(1.5em * var(--contribution-scale));
+  }
+
+  .vertical-timeline--two-columns .timeline-contribution.vertical-timeline-element--right .vertical-timeline-element-content {
+    margin-left: 0;
+    margin-right: calc(44% - var(--card-width));
+  }
+
+  /* The date sits on the other side of the circle; the library places it at 124% of the
+     card width, so for a narrower card the same spot needs a larger percentage */
+  .vertical-timeline--two-columns .vertical-timeline-element.timeline-contribution .vertical-timeline-element-content .vertical-timeline-element-date {
+    left: calc(124% / var(--contribution-scale) + (100% - 100% / var(--contribution-scale)));
+  }
+
+  .vertical-timeline--two-columns .vertical-timeline-element.timeline-contribution.vertical-timeline-element--right .vertical-timeline-element-content .vertical-timeline-element-date {
+    left: auto;
+    right: calc(124% / var(--contribution-scale) + (100% - 100% / var(--contribution-scale)));
+  }
+}

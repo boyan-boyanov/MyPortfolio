@@ -125,7 +125,8 @@ const technologies = [
 ];
 
 // Timeline entries. `showOnTimeline` (MM/YYYY) decides where the card sits on the timeline:
-// work experiences and contributions are merged and sorted by it (oldest first).
+// work experiences are sorted by it (newest first) and alternate left / right on wide screens.
+// Contributions are not shown on the timeline.
 // `label` is the small text above the card title (e.g. "Work", "Freelance", "Internship").
 // `iconSize` (optional) is the icon size inside the timeline circle: "60%" by default, "100%" fills it,
 // above 100% zooms in (e.g. "130%") and everything outside the circle is clipped.
@@ -135,7 +136,6 @@ const technologies = [
 //   images: [{ src: importedImage, alt: "..." }] - thumbnails shown before the bullet list,
 //     in this order; click one to enlarge it, click again to shrink it
 // Without `whatIDid` / `responsibilities` the modal shows the card `points` instead.
-// Work experiences are shown on the left side of the timeline
 const experiences = [
   {
     label: "CAREER FOUNDATION",
@@ -228,14 +228,14 @@ const experiences = [
   {
     label: "DXC Technology ",
     title: "PUBLIC SECTOR TAX PLATFORM",
-    company_name: "Government Digital Services",
+    company_name: "React • TypeScript • Zustand",
     icon: tax,
     iconSize: "115%",
     iconBg: "#383E56",
     date: "Sep 2023 - Oct 2026",
     showOnTimeline: "09/2023",
     points: [
-      "React • TypeScript • Zustand",
+      "Government Digital Services",
       "Large-scale frontend platform supporting " +
       "complex data workflows and validation processes."
     ],
@@ -318,8 +318,7 @@ const experiences = [
             "This project expands my frontend responsibilities into end-to-end technical ownership, combining system analysis, reverse engineering, architecture, UX design, and development to modernize an existing application.",
       },
     }
-
-  },
+  }
 ];
 
 // Everything done outside the work projects (mentoring, teaching, community, open source...).
@@ -327,61 +326,14 @@ const experiences = [
 // TODO: replace these placeholder entries with real contributions
 const contributions = [
   {
-    label: "LEADERSHIP",
-    title: "WORKPLACE PARKING PLATFORM",
-    company_name: "Product Ownership & Delivery",
-    icon: coordination,
-    iconSize: "115%",
-    iconBg: "#383E56",
-    date: "Jan 2024 - Jun 2024",
-    showOnTimeline: "01/2024",
-    points: [
-      "Product ownership and roadmap definition.",
-      "Business analysis and requirements gathering.",
-      "Delivery coordination, testing, and quality assurance.",
-      "Mentoring and team support throughout development.",
-    ],
-    details: {
-      overview:
-          "Led the delivery of an internal parking reservation platform that began as a learning initiative and evolved into a production-ready solution actively used within the organization.",
-
-      responsibilities: [
-        "Provided end-to-end ownership throughout the project lifecycle.",
-        "Mentored a participant from the Dandelion program during delivery.",
-        "Helped establish structured workflows and collaboration practices.",
-        "Supported the transition from learning initiative to production adoption.",
-      ],
-
-      skills: [
-        "Product Ownership",
-        "Business Analysis",
-        "Requirements Gathering",
-        "Scrum",
-        "Team Leadership",
-        "Stakeholder Communication",
-        "Quality Assurance",
-        "Power Apps",
-        "SharePoint",
-        "Mentoring",
-      ],
-
-      bringToSoftware: {
-        text:
-            "This project strengthened my ability to bridge business and technical perspectives, " +
-            "lead multidisciplinary teams, and guide solutions from idea to successful adoption while supporting " +
-            "team growth and knowledge sharing.",
-      },
-    }
-  },
-  {
-    label: "INNOVATION",
+    label: "DXC · 🏆1ST PLACE HACKATHON WINNER",
     title: "INTERACTIVE EVENT PLATFORM",
-    company_name: "1st Place Hackathon Winner",
+    company_name: "React • TypeScript • Zustand",
     icon: winner,
     iconSize: "118%",
     iconBg: "#E6DEDD",
-    date: "Nov 2024 - April 2025",
-    showOnTimeline: "11/2024",
+    date: "Nov 2024",
+    showOnTimeline: "06/2023",
     points: [
       "Interactive event platform combining QR-based " +
       "participation, configurable games, and survey-driven " +
@@ -421,6 +373,51 @@ const contributions = [
         text:
             "This project strengthened my ability to rapidly transform ideas into working products, " +
             "design engaging user experiences, and deliver solutions under tight deadlines."
+      },
+    }
+  },
+  {
+    label: "DXC · INTERNAL INITIATIVE",
+    title: "WORKPLACE PARKING PLATFORM",
+    company_name: "Product Ownership & Leadership",
+    icon: coordination,
+    iconSize: "115%",
+    iconBg: "#383E56",
+    date: "Jan 2024 - Jun 2024",
+    showOnTimeline: "04/2023",
+    points: [
+      "Led an internal parking platform from concept\n" +
+      "to production while mentoring a team member.",
+    ],
+    details: {
+      overview:
+          "Led the delivery of an internal parking reservation platform that began as a learning initiative and evolved into a production-ready solution actively used within the organization.",
+
+      responsibilities: [
+        "Provided end-to-end ownership throughout the project lifecycle.",
+        "Mentored a participant from the Dandelion program during delivery.",
+        "Helped establish structured workflows and collaboration practices.",
+        "Supported the transition from learning initiative to production adoption.",
+      ],
+
+      skills: [
+        "Product Ownership",
+        "Business Analysis",
+        "Requirements Gathering",
+        "Scrum",
+        "Team Leadership",
+        "Stakeholder Communication",
+        "Quality Assurance",
+        "Power Apps",
+        "SharePoint",
+        "Mentoring",
+      ],
+
+      bringToSoftware: {
+        text:
+            "This project strengthened my ability to bridge business and technical perspectives, " +
+            "lead multidisciplinary teams, and guide solutions from idea to successful adoption while supporting " +
+            "team growth and knowledge sharing.",
       },
     }
   },
