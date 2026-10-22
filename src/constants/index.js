@@ -27,7 +27,9 @@ import {
   createGame,
   slider2,
   hanoi1,
-  setting, winner
+  setting,
+  winner,
+    vueProject
 } from "../assets";
 
 export const navLinks = [
@@ -276,47 +278,44 @@ const experiences = [
     label: "Work",
     title: "FRONTEND ARCHITECTURE\n" +
         "& MODERNIZATION",
-    company_name: "Vue • Pinia",
-    icon: meta,
+    company_name: "Vue • Pinia • Quasar",
+    icon: vueProject,
+    iconSize: "120%",
     iconBg: "#E6DEDD",
     date: "July 2026 - Present",
     showOnTimeline: "07/2026",
     points: [
-      "End-to-end ownership of frontend analysis,\n" +
-      "architecture, design, and development for\n" +
-      "the modernization of an existing system."
+      "End-to-end ownership across system analysis, frontend architecture, design, and development for the modernization of an existing application."
     ],
     details: {
       overview:
-          "Contributed to the frontend development of a large-scale public sector information system designed to manage complex data workflows, validation processes, and long-lived records. " +
-          "The platform required high reliability, maintainability, accessibility, and performance while supporting business-critical operations.",
+          "Leading the frontend modernization of an existing application with end-to-end responsibility for " +
+          "legacy system analysis, UX design, frontend architecture, and implementation using Vue, Pinia, and Quasar.",
 
       whatIDid: [
-        "Developed reusable React components for large-scale frontend applications.",
-        "Built complex forms with extensive validation rules and business logic.",
-        "Implemented scalable state management using Zustand.",
-        "Integrated frontend features with multiple backend APIs and services.",
-        "Performed code reviews to improve code quality, consistency, and maintainability.",
-        "Collaborated closely with Business Analysts during story refinement and requirements analysis.",
+        "Analyzed and reverse-engineered the existing application to understand user workflows, business logic, and expected system behavior.",
+        "Translated legacy functionality into requirements for the new frontend solution.",
+        "Designed the frontend architecture and application structure from the ground up.",
+        "Designed the user experience and interface for the modernized application.",
+        "Implemented the complete frontend using Vue, Pinia, and Quasar.",
+        "Validated the new implementation against existing system behavior and business requirements.",
       ],
 
       skills: [
-        "React",
-        "TypeScript",
-        "Zustand",
+        "Vue",
+        "Pinia",
+        "Quasar",
         "Frontend Architecture",
-        "Complex Forms",
-        "API Integration",
-        "Code Reviews",
-        "Accessibility",
-        "Requirements Analysis",
-        "Agile Development",
-        "Enterprise Applications",
+        "System Analysis",
+        "Reverse Engineering",
+        "Legacy Modernization",
+        "UI/UX Design",
+        "Business Logic Analysis"
       ],
 
       bringToSoftware: {
         text:
-            "This project strengthened my ability to design and maintain large-scale frontend applications, collaborate across technical and business teams, and deliver solutions that balance usability, performance, scalability, and maintainability within complex enterprise environments.",
+            "This project expands my frontend responsibilities into end-to-end technical ownership, combining system analysis, reverse engineering, architecture, UX design, and development to modernize an existing application.",
       },
     }
 

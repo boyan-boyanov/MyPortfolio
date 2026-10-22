@@ -31,6 +31,7 @@ import furniture from "./company/furniture.png";
 import academic from "./company/academic.png";
 import coordination from "./company/coordination.png";
 import winner from "./company/winner.png";
+import vueProject from "./company/vueProject.png";
 
 // Images shown in the timeline "Show more" modals
 import createGame from "./createGame.png";
@@ -80,5 +81,6 @@ export {
   createGame,
   slider2,
   hanoi1,
-  setting
+  setting,
+  vueProject
 };
