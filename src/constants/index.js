@@ -4,13 +4,11 @@ import {
   html,
   css,
   reactjs,
-  redux,
+  vue,
   tailwind,
   nodejs,
   mongodb,
   git,
-  figma,
-  docker,
   furniture,
   academic,
   tax,
@@ -28,7 +26,9 @@ import {
   hanoi1,
   setting,
   winner,
-    vueProject
+  vueProject,
+  zustand,
+  angular
 } from "../assets";
 
 export const navLinks = [
@@ -49,7 +49,7 @@ export const navLinks = [
 const services = [
   {
     title: "4+ Years",
-    subtitle: "Software Engineering",
+    subtitle: "Frontend Engineering",
     icon: years4,
   },
   {
@@ -91,8 +91,8 @@ const technologies = [
     icon: reactjs,
   },
   {
-    name: "Redux Toolkit",
-    icon: redux,
+    name: "Vue JS",
+    icon: vue,
   },
   {
     name: "Tailwind CSS",
@@ -115,12 +115,12 @@ const technologies = [
     icon: git,
   },
   {
-    name: "figma",
-    icon: figma,
+    name: "zustand",
+    icon: zustand,
   },
   {
-    name: "docker",
-    icon: docker,
+    name: "angular",
+    icon: angular,
   },
 ];
 
@@ -328,7 +328,7 @@ const contributions = [
   {
     label: "DXC · 🏆1ST PLACE HACKATHON WINNER",
     title: "INTERACTIVE EVENT PLATFORM",
-    company_name: "React • TypeScript • Zustand",
+    company_name: "React • Zustand",
     icon: winner,
     iconSize: "118%",
     iconBg: "#E6DEDD",

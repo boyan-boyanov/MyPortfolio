@@ -24,6 +24,9 @@ import redux from "./tech/redux.png";
 import tailwind from "./tech/tailwind.png";
 import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
+import vue from "./tech/vue.png";
+import zustand from "./tech/zustand.png";
+import angular from "./tech/angular.png";
 
 import meta from "./company/meta.png";
 import tax from "./company/tax.png";
@@ -82,5 +85,8 @@ export {
   slider2,
   hanoi1,
   setting,
-  vueProject
+  vueProject,
+  vue,
+  zustand,
+  angular
 };

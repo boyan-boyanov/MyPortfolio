@@ -1,5 +1,7 @@
 import { BrowserRouter } from "react-router-dom"
-import { About, Contact, Experience, Feedbacks, Hero, Navbar, Tech, Works, StarsCanvas } from './components'
+// Works (Personal Projects) and Feedbacks (Testimonials) are hidden for now; to show them again,
+// import them here and uncomment them below
+import { About, Contact, Experience, Hero, Navbar, Tech, StarsCanvas } from './components'
 
 const App = () => {
 
@@ -13,8 +15,8 @@ const App = () => {
         <About />
         <Experience />
         <Tech />
-        <Works />
-        <Feedbacks />
+        {/* <Works /> */}
+        {/* <Feedbacks /> */}
         <div className="relative z-0">
           <Contact />
           <StarsCanvas />
