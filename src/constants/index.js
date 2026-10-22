@@ -11,7 +11,6 @@ import {
   git,
   figma,
   docker,
-  meta,
   furniture,
   academic,
   tax,
@@ -49,22 +48,23 @@ export const navLinks = [
 
 const services = [
   {
-    title: "20+\n" +
-        "Years of Design & Leadership",
-    icon: years20,
-  },
-  {
-    title: "4+ Years Software Engineering",
+    title: "4+ Years",
+    subtitle: "Software Engineering",
     icon: years4,
   },
   {
-    title: "Master's Degree\n" + "in Software Engineering\n",
+    title: "React + TypeScript",
+    subtitle: "Primary frontend stack",
+    icon: years20,
+  },
+  {
+    title: "3D & Design",
+    subtitle: "Visualization & interactive 3D",
     icon: education,
   },
   {
-    title: "3+ Years of\n" +
-        "Mentoring &\n" +
-        "Teaching",
+    title: "Leadership",
+    subtitle: "Teams, delivery & mentoring",
     icon: mentoring,
   },
 ];
@@ -180,7 +180,7 @@ const experiences = [
     },
   },
   {
-    label: "Work",
+    label: "DXC Technology ",
     title: "ENTERPRISE REPORTING SOLUTION",
     company_name: "Higher Education Sector",
     icon: academic,
@@ -226,7 +226,7 @@ const experiences = [
     }
   },
   {
-    label: "Work",
+    label: "DXC Technology ",
     title: "PUBLIC SECTOR TAX PLATFORM",
     company_name: "Government Digital Services",
     icon: tax,
@@ -275,7 +275,7 @@ const experiences = [
 
   },
   {
-    label: "Work",
+    label: "DXC Technology",
     title: "FRONTEND ARCHITECTURE\n" +
         "& MODERNIZATION",
     company_name: "Vue • Pinia • Quasar",

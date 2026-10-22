@@ -88,7 +88,21 @@
   font-size: 16px;       
   line-height: normal;  
   margin-top: 0.5rem;   
-  color: #dfd9ff;       
+  color: #dfd9ff;
+}
+
+/* Reading order of the sub text: first glance catches the key words (role and stack),
+   the rest of the line comes next, and the background line last */
+.hero-sub-text-key {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.hero-sub-text-second {
+  color: #dfd9ff;
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 0.85em;
 }
 
 /* Holds the 3D model and the scroll hint together; the model reports its height on screen

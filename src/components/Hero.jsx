@@ -1,6 +1,5 @@
 import React, { useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { styles } from '../styles'
 import { ComputersCanvas } from './canvas'
 import './customStyles/Hero.css'
 
@@ -23,9 +22,9 @@ const Hero = () => {
 
         <div>
           <h1 className='hero-title'>Hi, I'm <span className='text-purple'>Boyan</span></h1>
-          <p className='hero-sub-text'>Software Engineer with a background in
-            <br className='responsive-break' /> 3D design, leadership, and frontend development,
-            <br className='responsive-break' /> creating interactive web experiences with modern technologies.
+          <p className='hero-sub-text'><span className='hero-sub-text-key'>Frontend Engineer</span> building web applications
+            <br className='responsive-break' /> with <span className='hero-sub-text-key'>React</span> and <span className='hero-sub-text-key'>TypeScript</span>.
+            <br className='responsive-break' /> <span className='hero-sub-text-second'>Background in 3D design and leadership.</span>
           </p>
         </div>
       </div>
