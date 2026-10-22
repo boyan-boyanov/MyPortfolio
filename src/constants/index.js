@@ -274,17 +274,17 @@ const experiences = [
   },
   {
     label: "Work",
-    title: "Full stack Developer",
-    company_name: "Meta",
+    title: "FRONTEND ARCHITECTURE\n" +
+        "& MODERNIZATION",
+    company_name: "Vue • Pinia",
     icon: meta,
     iconBg: "#E6DEDD",
-    date: "Jan 2023 - Present",
-    showOnTimeline: "01/2025",
+    date: "July 2026 - Present",
+    showOnTimeline: "07/2026",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "End-to-end ownership of frontend analysis,\n" +
+      "architecture, design, and development for\n" +
+      "the modernization of an existing system."
     ],
     details: {
       overview:

@@ -1,7 +1,8 @@
 .hero-section {
     position: relative;
     width: 100%;
-    height: 100vh;
+    /* As tall as text + model need, at most one screen (see .hero-stage) */
+    max-height: 100vh;
     margin-left: auto;
     margin-right: auto;
 
@@ -9,12 +10,19 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    /* Text on top, 3D model below it: the canvas only gets the space the text leaves,
+       so the model can never cover the text, whatever the screen size */
+    display: flex;
+    flex-direction: column;
 }
 
 .hero-inner {
-    position: absolute;
-    inset: 0;
-    top: 120px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    width: 100%;
+    padding-top: 120px;
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
@@ -29,10 +37,18 @@
 }
 
 .hero-col {
+    /* Zero height: the decorative line hangs down beside the model
+       without taking space away from the canvas */
+    height: 0;
+    pointer-events: none;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 1.25rem;
+}
+
+.hero-col > * {
+    flex-shrink: 0;
 }
 
 .dot {
@@ -75,18 +91,35 @@
   color: #dfd9ff;       
 }
 
+/* Holds the 3D model and the scroll hint together; the model reports its height on screen
+   as --model-height (in px, set from Hero.jsx), so the hint can scale with it */
+.hero-stage {
+  --model-height: 300;
+  /* Canvas height the model needs, also set by the model; flex-shrink lets it give way
+     on short screens, so the hero never gets taller than the screen */
+  --stage-height: 600;
+  height: calc(var(--stage-height) * 1px);
+  position: relative;
+  flex: 0 1 auto;
+  min-height: 0;
+  margin-bottom: 1rem;
+}
+
+/* Sits on the desk's front edge (the model keeps that edge near the bottom of the stage)
+   and grows and shrinks with the model. SCROLLER SIZE: change the 260 (bigger = smaller hint);
+   the last clamp value is the max size (1 = its original 35x64px) */
+.motion-scroller-container {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  transform-origin: center bottom;
+  transform: translateX(-50%) scale(clamp(0.5, calc(var(--model-height) / 260), 1)) translateY(15%);
+}
+
 .responsive-break {
   display: none;
 }
 
-.motion-scroller-container {
-  position: absolute;
-  bottom: 8rem; /* Tailwind bottom-32 = 8rem */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .motion-scroller {
   width: 35px;              
@@ -118,10 +151,6 @@
   .hero-sub-text {
     font-size: 20px;     
   }
-
-  .motion-scroller-container{
-    bottom: 11.5rem; /* Tailwind bottom-32 = 8rem */
-  }
 }
 
 @media (min-width: 640px) {
@@ -145,43 +174,26 @@
   .responsive-break {
     display: block;
   }
-
-  .motion-scroller-container{
-    bottom: 2.5rem; /* Tailwind bottom-70 = 17.5rem */
-  }
 }
 
 /* Large screens (lg) */
 @media (min-width: 1024px) {
+  /* Shrink with the screen height too, so short laptop screens keep room for the model */
   .hero-title {
-    font-size: 80px;      
-    line-height: 98px;    
+    font-size: clamp(48px, 11vh, 80px);
+    line-height: 1.22;
   }
 
    .hero-sub-text {
-    font-size: 30px;     
-    line-height: 40px;
+    font-size: clamp(20px, 4.2vh, 30px);
+    line-height: 1.33;
   }
 }
-/* Phones (matches isMobile in Hero.jsx): a fixed-height hero instead of a full screen,
-   so the scroller sits right under the desk and About starts right after it.
-   HERO HEIGHT ON PHONES: change `height` below (the 3D model scales with it;
-   fine-tune the mobile `scale` / `position` in canvas/Computers.jsx) */
-@media (max-width: 500px) {
-  .hero-section {
-    height: 600px;
-  }
-
-  .motion-scroller-container {
-    bottom: 1.25rem;
-  }
-}
-
-/* Phones in landscape (wide but very short screen): 100vh is too short for text + model,
-   so use a fixed height and let the page scroll. HERO HEIGHT IN LANDSCAPE: change `height` */
+/* Phones in landscape (wide but very short screen): one screen is too short for text + model,
+   so let the hero grow past it and the page scroll */
 @media (orientation: landscape) and (max-height: 500px) {
   .hero-section {
-    height: 720px;
+    max-height: none;
   }
 
   /* Smaller heading so text + model fit; the 3D model scales with the hero height */
@@ -199,7 +211,4 @@
     height: 12rem;
   }
 
-  .motion-scroller-container {
-    bottom: 0.75rem;
-  }
 }

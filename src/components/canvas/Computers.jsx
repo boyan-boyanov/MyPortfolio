@@ -1,4 +1,5 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
+import { Box3, Euler, Matrix4, Quaternion, Vector3 } from 'three'
 import '../customStyles/Computers.css'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Preload, useGLTF } from '@react-three/drei'
@@ -16,17 +17,103 @@ const RESET_DURATION = 1.5
 
 //scetchfab.com for more 3D models
 // useGLTF suspends while the model loads, so this component must render inside <Suspense>
-// Size and placement of the model per screen type; the landscape phone view wins over the other two
-const MODEL_VIEWS = {
-  desktop: { scale: 0.75, position: [0, -3.25, -1.5] },
-  mobile: { scale: 0.38, position: [0, -2.75, -0.5] },
-  landscapePhone: { scale: 0.5, position: [0, -3, -1.25] },
+// How much of the canvas width the model may fill (1 = touches the edges); the model is scaled
+// and placed at the bottom of the canvas, so it works on any screen size without breakpoints
+const FIT_WIDTH = 0.9
+// Space between the text above and the top of the model, in pixels
+const TOP_GAP = 32
+// Space between the desk's front edge and the bottom of the canvas (share of the canvas height)
+const BOTTOM_GAP = 0.03
+const ROTATION = [-0.01, -0.2, -0.1]
+
+// The model's meshes (with their place inside the model) and its size and center at scale 1,
+// measured with the model's own transform cleared
+const measure = (scene) => {
+  const saved = { scale: scene.scale.clone(), rotation: scene.rotation.clone(), position: scene.position.clone() }
+  scene.scale.set(1, 1, 1)
+  scene.rotation.set(0, 0, 0)
+  scene.position.set(0, 0, 0)
+  scene.updateMatrixWorld(true)
+  const box = new Box3().setFromObject(scene)
+  const meshes = []
+  scene.traverse((child) => {
+    if (child.isMesh) meshes.push({ positions: child.geometry.attributes.position, matrix: child.matrixWorld.clone() })
+  })
+  scene.scale.copy(saved.scale)
+  scene.rotation.copy(saved.rotation)
+  scene.position.copy(saved.position)
+  scene.updateMatrixWorld(true)
+  return { meshes, size: box.getSize(new Vector3()), center: box.getCenter(new Vector3()) }
 }
 
-const Computers = ({ isMobile, isLandscapePhone }) => {
-  const view = MODEL_VIEWS[isLandscapePhone ? 'landscapePhone' : isMobile ? 'mobile' : 'desktop']
+// Lowest and highest point of the model on screen, from -1 (bottom edge of the canvas) to 1 (top edge).
+// Uses the real vertices, not a bounding box: cables hidden behind the desk hang lower than its
+// front edge, and a box would count them as if they were visible
+const screenSpan = (meshes, placement, camera) => {
+  const matrix = new Matrix4()
+  const point = new Vector3()
+  let bottom = Infinity
+  let top = -Infinity
+  for (const mesh of meshes) {
+    matrix.multiplyMatrices(placement, mesh.matrix)
+    for (let i = 0; i < mesh.positions.count; i++) {
+      const y = point.fromBufferAttribute(mesh.positions, i).applyMatrix4(matrix).project(camera).y
+      bottom = Math.min(bottom, y)
+      top = Math.max(top, y)
+    }
+  }
+  return { bottom, top }
+}
+
+// onModelResize gets the model's height on screen and the canvas height it needs (in pixels),
+// so the HTML around it can follow
+const Computers = ({ onModelResize }) => {
   const computer = useGLTF('./desktop_pc/scene.gltf')
   const invalidate = useThree((state) => state.invalidate)
+  // Visible area (in 3D units) at the orbit target; updates when the canvas is resized
+  const viewport = useThree((state) => state.viewport)
+  const camera = useThree((state) => state.camera)
+  const canvasHeight = useThree((state) => state.size.height)
+  const bounds = useMemo(() => measure(computer.scene), [computer])
+
+  // Scale the model to fit the canvas and put the desk's front edge near its bottom,
+  // where the scroll hint (positioned in Hero.css) sits on it
+  const { scale, position, modelHeight, idealHeight } = useMemo(() => {
+    camera.updateMatrixWorld()
+    const rotation = new Quaternion().setFromEuler(new Euler(...ROTATION))
+    const placement = new Matrix4()
+    const span = (scale, offset) =>
+      screenSpan(bounds.meshes, placement.compose(offset, rotation, new Vector3(scale, scale, scale)), camera)
+
+    // The user can spin the model, so its widest side seen from above must fit too
+    const widthScale = (viewport.width * FIT_WIDTH) / Math.hypot(bounds.size.x, bounds.size.z)
+    // Screen height goes from -1 to 1, so the full canvas height is 2
+    const { bottom, top } = span(widthScale, bounds.center.clone().multiplyScalar(-widthScale))
+    const room = 2 * (1 - BOTTOM_GAP) - (2 * TOP_GAP) / canvasHeight
+    const scale = Math.min(widthScale, (widthScale * room) / (top - bottom))
+
+    const offset = bounds.center.clone().multiplyScalar(-scale)
+    // Perspective makes one step slightly off, the second one lands it
+    for (let step = 0; step < 2; step++) {
+      const { bottom } = span(scale, offset)
+      // Screen units to 3D units at the orbit target
+      offset.y -= ((bottom + 1 - BOTTOM_GAP * 2) * viewport.height) / 2
+    }
+    // Model height in pixels when it fills the canvas width; it doesn't depend on the canvas height
+    const fullWidthHeight = ((top - bottom) / 2) * canvasHeight
+    return {
+      scale,
+      position: offset.toArray(),
+      modelHeight: Math.round((fullWidthHeight * scale) / widthScale),
+      // Canvas height that fits the model at full width with the gaps around it; any taller
+      // would only add empty space above the model
+      idealHeight: Math.round((fullWidthHeight + TOP_GAP) / (1 - BOTTOM_GAP)),
+    }
+  }, [bounds, camera, viewport, canvasHeight])
+
+  useEffect(() => {
+    onModelResize?.({ modelHeight, idealHeight })
+  }, [onModelResize, modelHeight, idealHeight])
 
   useEffect(() => {
     computer.scene.traverse((child) => {
@@ -70,15 +157,15 @@ const Computers = ({ isMobile, isLandscapePhone }) => {
 
       {/* 3D object properties */}
       <primitive object={computer.scene}
-        scale={view.scale}
-        position={view.position}
-        rotation={[-0.01, -0.2, -0.1]}
+        scale={scale}
+        position={position}
+        rotation={ROTATION}
       />
     </mesh>
   )
 }
 
-const ComputersCanvas = ({ isMobile, isLandscapePhone }) => {
+const ComputersCanvas = ({ onModelResize }) => {
 
   return (
     <Canvas
@@ -95,7 +182,7 @@ const ComputersCanvas = ({ isMobile, isLandscapePhone }) => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Computers isMobile={isMobile} isLandscapePhone={isLandscapePhone} />
+        <Computers onModelResize={onModelResize} />
       </Suspense>
 
       <Preload all />
