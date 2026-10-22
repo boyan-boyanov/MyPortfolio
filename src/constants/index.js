@@ -49,7 +49,7 @@ export const navLinks = [
 const services = [
   {
     title: "4+ Years",
-    subtitle: "Frontend Engineering",
+    subtitle: "Softwareжсш Engineering",
     icon: years4,
   },
   {
