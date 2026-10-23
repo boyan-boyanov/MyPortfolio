@@ -66,8 +66,9 @@ const About = () => {
           className='absolute left-0 -top-2.5 w-1 sm:w-1.5 rounded-full bg-[#915eff]'
         />
         <motion.p variants={fadeIn('', '', 0.2, 1)}>
-          I’m a <Highlight>Frontend Engineer</Highlight> with a Master’s degree in{' '}
-          Software Engineering, working primarily with <Highlight>React and TypeScript</Highlight>, with additional experience in Vue and Three.js.
+          I’m a <Highlight>Frontend Engineer</Highlight> working primarily with{' '}
+          <Highlight>React and TypeScript</Highlight>, with additional experience in Vue and Three.js.{' '}
+          I hold a <Highlight>Master's degree</Highlight> in Software Engineering and Scrum.org <Highlight>PSD I and PSM I</Highlight> certifications.
         </motion.p>
         <motion.p variants={fadeIn('', '', 0.3, 1)}>
           Before software engineering, I spent nearly two decades in{' '}
