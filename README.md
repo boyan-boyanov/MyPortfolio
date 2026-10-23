@@ -1,16 +1,22 @@
-# React + Vite
+# Boyan Boyanov · Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio of a Frontend Engineer, built with React and interactive 3D scenes in Three.js.
 
-Currently, two official plugins are available:
+**Live:**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Portfolio preview](./docs/preview.png)
 
-## React Compiler
+## Highlights
+- **Interactive 3D:** desk scene in the hero, animated globe and 3D tech icons, built with React Three Fiber and Drei
+- **Experience timeline:** reverse-chronological work history with detail modals
+- **Contact form:** sends email directly from the browser via EmailJS
+- **Animations:** scroll-triggered transitions with Framer Motion and tilt effects on cards
+- **Responsive:** layout adapts from desktop to mobile
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
+React 19 · Vite · Three.js · React Three Fiber · Drei · Tailwind CSS 4 · Framer Motion · React Router · EmailJS
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Run locally
+```bash
+npm install
+npm run dev
