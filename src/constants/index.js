@@ -31,6 +31,16 @@ import {
   angular
 } from "../assets";
 
+// Profile links used by the navbar, hero and contact section
+export const socialLinks = {
+  linkedin: "https://www.linkedin.com/in/boyan-boyanov-dev",
+  github: "https://github.com/boyan-boyanov",
+  email: "b.i.boianov@gmail.com",
+};
+
+// Spread onto links that open an external profile in a new tab
+export const externalLinkProps = { target: "_blank", rel: "noopener noreferrer" };
+
 export const navLinks = [
   {
     id: "about",

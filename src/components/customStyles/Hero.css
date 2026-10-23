@@ -226,3 +226,32 @@
   }
 
 }
+
+/* LinkedIn / GitHub buttons under the sub-text */
+.hero-social {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  pointer-events: auto;
+}
+
+.hero-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background-color: #151030; /* tertiary, same as the cards */
+  color: #fff;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.hero-social-link:hover {
+  background-color: #915eff;
+}
+
+.hero-social-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #050816, 0 0 0 4px #915eff;
+}

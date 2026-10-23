@@ -6,6 +6,14 @@ import { styles } from '../styles'
 import { EarthCanvas } from './canvas'
 import { slideIn } from '../utils/motion'
 import SectionWrapper from '../hoc/SectionWrapper'
+import { socialLinks, externalLinkProps } from '../constants'
+import { GitHubIcon, LinkedInIcon, MailIcon } from './SocialIcons'
+
+const contactLinks = [
+  { href: `mailto:${socialLinks.email}`, label: socialLinks.email, Icon: MailIcon },
+  { href: socialLinks.linkedin, label: 'LinkedIn', Icon: LinkedInIcon, external: true },
+  { href: socialLinks.github, label: 'GitHub', Icon: GitHubIcon, external: true },
+]
 
 // Set these in .env.local (see .env.example); the recipient address lives in the EmailJS template
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
@@ -55,14 +63,30 @@ const Contact = () => {
     }
   }
 
+  // Small screens: contact card first, globe below it
   return (
-    <div className='xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden'>
+    <div className='xl:mt-12 flex xl:flex-row flex-col gap-10 overflow-hidden'>
       <motion.div
         variants={slideIn('left', 'tween', 0.2, 1)}
         className='flex-[0.75] bg-black-100 p-8 rounded-2xl'
       >
         <p className={styles.sectionSubText}>Get in touch</p>
         <h3 className={styles.sectionHeadText}>Contact.</h3>
+
+        <p className='mt-6 text-secondary text-[16px]'>Prefer email or LinkedIn? Reach me directly:</p>
+        <div className='mt-4 flex flex-wrap gap-3'>
+          {contactLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              {...(link.external ? externalLinkProps : {})}
+              className='inline-flex items-center gap-2 bg-tertiary py-2.5 px-4 rounded-lg text-white text-[15px] font-medium break-all transition-colors hover:bg-[#915eff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff]'
+            >
+              <link.Icon className='w-[18px] h-[18px] shrink-0' />
+              {link.label}
+            </a>
+          ))}
+        </div>
 
         <form onSubmit={handleSubmit} className='mt-12 flex flex-col gap-8'>
           <label className='flex flex-col'>

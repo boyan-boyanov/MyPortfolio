@@ -2,6 +2,13 @@ import React, { useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ComputersCanvas } from './canvas'
 import './customStyles/Hero.css'
+import { socialLinks, externalLinkProps } from '../constants'
+import { GitHubIcon, LinkedInIcon } from './SocialIcons'
+
+const heroLinks = [
+  { href: socialLinks.linkedin, label: 'LinkedIn profile', Icon: LinkedInIcon },
+  { href: socialLinks.github, label: 'GitHub profile', Icon: GitHubIcon },
+]
 
 const Hero = () => {
   const stage = useRef(null)
@@ -26,6 +33,20 @@ const Hero = () => {
             <br className='responsive-break' /> with <span className='hero-sub-text-key'>React</span> and <span className='hero-sub-text-key'>TypeScript</span>.
             <br className='responsive-break' /> <span className='hero-sub-text-second'>Background in 3D design and leadership.</span>
           </p>
+
+          {/* Part of the text column, so the 3D stage below shrinks around it instead of overlapping */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
+            className='hero-social'
+          >
+            {heroLinks.map((link) => (
+              <a key={link.label} href={link.href} aria-label={link.label} {...externalLinkProps} className='hero-social-link'>
+                <link.Icon />
+              </a>
+            ))}
+          </motion.div>
         </div>
       </div>
 

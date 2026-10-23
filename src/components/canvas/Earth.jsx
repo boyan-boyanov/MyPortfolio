@@ -1,15 +1,22 @@
 import React, { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, Preload, useGLTF } from '@react-three/drei'
 
 import CanvasLoader from '../Loader'
 import { useScenesPaused } from '../../utils/scenePause'
 
+const EARTH_SCALE = 2.5
+// The camera fits the globe by height; a canvas narrower than this (width / height) would cut it
+// off at the sides, so the globe shrinks with the width instead (e.g. next to a tall contact card)
+const MIN_ASPECT = 0.8
+
 // useGLTF suspends while the model loads, so this component must render inside <Suspense>
 const Earth = () => {
   const earth = useGLTF('./planet/scene.gltf')
+  const { width, height } = useThree((state) => state.size)
+  const scale = EARTH_SCALE * Math.min(1, width / height / MIN_ASPECT)
 
-  return <primitive object={earth.scene} scale={2.5} position-y={0} rotation-y={0} />
+  return <primitive object={earth.scene} scale={scale} position-y={0} rotation-y={0} />
 }
 
 const EarthCanvas = () => {
