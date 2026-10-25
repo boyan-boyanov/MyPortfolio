@@ -68,19 +68,20 @@ const Contact = () => {
     <div className='xl:mt-12 flex xl:flex-row flex-col gap-10 overflow-hidden'>
       <motion.div
         variants={slideIn('left', 'tween', 0.2, 1)}
-        className='flex-[0.75] bg-black-100 p-8 rounded-2xl'
+        className='flex-[0.9] bg-black-100 p-8 rounded-2xl'
       >
         <p className={styles.sectionSubText}>Get in touch</p>
         <h3 className={styles.sectionHeadText}>Contact.</h3>
 
         <p className='mt-6 text-secondary text-[16px]'>Prefer email or LinkedIn? Reach me directly:</p>
-        <div className='mt-4 flex flex-wrap gap-3'>
+        {/* One row from md up; wraps only on phones, where the email alone fills the width */}
+        <div className='mt-4 flex flex-wrap md:flex-nowrap gap-2'>
           {contactLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               {...(link.external ? externalLinkProps : {})}
-              className='inline-flex items-center gap-2 bg-tertiary py-2.5 px-4 rounded-lg text-white text-[15px] font-medium break-all transition-colors hover:bg-[#915eff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff]'
+              className='inline-flex items-center gap-2 bg-tertiary py-2.5 px-3.5 rounded-lg text-white text-[15px] font-medium break-all md:break-normal md:whitespace-nowrap transition-colors hover:bg-[#915eff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff]'
             >
               <link.Icon className='w-[18px] h-[18px] shrink-0' />
               {link.label}

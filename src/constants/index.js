@@ -135,8 +135,7 @@ const technologies = [
 ];
 
 // Timeline entries. `showOnTimeline` (MM/YYYY) decides where the card sits on the timeline:
-// work experiences are sorted by it (newest first) and alternate left / right on wide screens.
-// Contributions are not shown on the timeline.
+// work experiences and contributions are merged, sorted by it (newest first) and alternate left / right on wide screens.
 // `label` is the small text above the card title (e.g. "Work", "Freelance", "Internship").
 // `iconSize` (optional) is the icon size inside the timeline circle: "60%" by default, "100%" fills it,
 // above 100% zooms in (e.g. "130%") and everything outside the circle is clipped.
@@ -258,23 +257,20 @@ const experiences = [
         "Developed reusable React components for large-scale frontend applications.",
         "Built complex forms with extensive validation rules and business logic.",
         "Implemented scalable state management using Zustand.",
-        "Integrated frontend features with multiple backend APIs and services.",
+        "Integrated React frontends with Java-based backend APIs and complex validation rules.",
         "Performed code reviews to improve code quality, consistency, and maintainability.",
-        "Collaborated closely with Business Analysts during story refinement and requirements analysis.",
+        "Acted as a bridge between frontend, business analysis and QA, identifying incomplete requirements and edge cases before implementation, reducing rework risk.",
       ],
 
       skills: [
         "React",
-        "JS-Split",
         "Zustand",
-        "Frontend Architecture",
         "Complex Forms",
         "API Integration",
         "Code Reviews",
         "Accessibility",
         "Requirements Analysis",
-        "Agile Development",
-        "Business Process Modeling"
+        "Agile Development"
       ],
 
       bringToSoftware: {
@@ -286,29 +282,26 @@ const experiences = [
   },
   {
     label: "DXC Technology",
-    title: "FRONTEND ARCHITECTURE\n" +
-        "& MODERNIZATION",
+    title: "HEALTHCARE PLATFORM",
     company_name: "Vue • Pinia • Quasar",
     icon: vueProject,
     iconSize: "120%",
     iconBg: "#E6DEDD",
-    date: "July 2026 - Present",
+    date: "Jul 2026 - Present",
     showOnTimeline: "07/2026",
     points: [
-      "End-to-end ownership across system analysis, frontend architecture, design, and development for the modernization of an existing application."
+      "New frontend built from scratch, with workflows and requirements derived by reverse-engineering a comparable existing system."
     ],
     details: {
       overview:
-          "Leading the frontend modernization of an existing application with end-to-end responsibility for " +
-          "legacy system analysis, UX design, frontend architecture, and implementation using Vue, Pinia, and Quasar.",
+          "Building a new frontend for a healthcare platform for an EU public sector client. " +
+          "Workflows, business rules and requirements are derived by reverse-engineering a comparable existing application, and I own the frontend architecture.",
 
       whatIDid: [
-        "Analyzed and reverse-engineered the existing application to understand user workflows, business logic, and expected system behavior.",
-        "Translated legacy functionality into requirements for the new frontend solution.",
-        "Designed the frontend architecture and application structure from the ground up.",
-        "Designed the user experience and interface for the modernized application.",
-        "Implemented the complete frontend using Vue, Pinia, and Quasar.",
-        "Validated the new implementation against existing system behavior and business requirements.",
+        "Reverse-engineered a comparable existing application to derive workflows, business rules and requirements for the new frontend.",
+        "Defined the frontend architecture and application structure from the ground up.",
+        "Implemented dynamic UIs for rule-driven decision flows based on client-provided mockups.",
+        "Worked with Business Analysts to turn the reference system's behavior into validated requirements.",
       ],
 
       skills: [
@@ -316,24 +309,23 @@ const experiences = [
         "Pinia",
         "Quasar",
         "Frontend Architecture",
-        "System Analysis",
         "Reverse Engineering",
-        "Legacy Modernization",
-        "UI/UX Design",
+        "Requirements Analysis",
+        "System Analysis",
         "Business Logic Analysis"
       ],
 
       bringToSoftware: {
         text:
-            "This project expands my frontend responsibilities into end-to-end technical ownership, combining system analysis, reverse engineering, architecture, UX design, and development to modernize an existing application.",
+            "This project extends my role from feature development to frontend ownership: defining the architecture of a new application and turning the behavior of an existing system into clear, validated requirements.",
       },
     }
   }
 ];
 
 // Everything done outside the work projects (mentoring, teaching, community, open source...).
-// Same structure as `experiences`; shown on the right side of the timeline.
-// TODO: replace these placeholder entries with real contributions
+// Same structure as `experiences`; merged with them on the timeline (newest first, alternating sides),
+// with a smaller card and circle (see components/customStyles/Experience.css).
 const contributions = [
   {
     label: "DXC · 🏆1ST PLACE HACKATHON WINNER",
@@ -359,19 +351,18 @@ const contributions = [
       ],
       overview:
           "Built an interactive event platform during a company hackathon, combining " +
-          "configurable games, QR-based onboarding, survey management, and participant " +
-          "feedback collection. The solution was awarded 1st place." + "\n\n" +
-          "The platform combined configurable games, QR-based onboarding, and customizable survey workflows " +
-          "to help increase engagement while collecting structured participant feedback.",
+          "configurable games, QR-based onboarding, survey management and participant " +
+          "feedback collection to increase engagement. The solution was awarded 1st place.",
 
       responsibilities: [
+        "In a team of 3 (frontend, backend, QA), owned the entire frontend: UI/UX design, architecture and implementation.",
         "Built configurable game, survey, and feedback collection workflows.",
         "Implemented QR-based onboarding and participant tracking.",
-        "Collaborated on UI/UX, APIs, and product ideation.",
       ],
 
       skills: [
         "React",
+        "Zustand",
         "Frontend Architecture",
         "UI/UX Design",
         "Gamification",
@@ -389,25 +380,25 @@ const contributions = [
   {
     label: "DXC · INTERNAL INITIATIVE",
     title: "WORKPLACE PARKING PLATFORM",
-    company_name: "Product Ownership & Leadership",
+    company_name: "Power Apps • SharePoint",
     icon: coordination,
     iconSize: "115%",
     iconBg: "#383E56",
-    date: "Jan 2024 - Jun 2024",
+    date: "Feb 2024 - Jun 2024",
     showOnTimeline: "04/2023",
     points: [
-      "Led an internal parking platform from concept\n" +
-      "to production while mentoring a team member.",
+      "Internal app for reserving the office's limited parking spaces, taken from idea to production.",
     ],
     details: {
       overview:
-          "Led the delivery of an internal parking reservation platform that began as a learning initiative and evolved into a production-ready solution actively used within the organization.",
+          "Internal application for reserving the office's limited parking spaces, live in production. " +
+          "It began as a learning initiative; I acted as Product Owner, Business Analyst and Scrum Master, and designed the application's UI/UX.",
 
       responsibilities: [
-        "Provided end-to-end ownership throughout the project lifecycle.",
-        "Mentored a participant from the Dandelion program during delivery.",
-        "Helped establish structured workflows and collaboration practices.",
-        "Supported the transition from learning initiative to production adoption.",
+        "Defined requirements, priorities and delivery scope, and managed the backlog in Jira.",
+        "Designed the application's UI/UX.",
+        "Coordinated testing and production adoption.",
+        "Mentored a Dandelion Program participant throughout the project.",
       ],
 
       skills: [
@@ -415,6 +406,8 @@ const contributions = [
         "Business Analysis",
         "Requirements Gathering",
         "Scrum",
+        "UI/UX Design",
+        "Jira",
         "Team Leadership",
         "Stakeholder Communication",
         "Quality Assurance",

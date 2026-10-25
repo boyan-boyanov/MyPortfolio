@@ -78,7 +78,7 @@ const About = () => {
 
       <div className='pl-6 sm:pl-12 lg:pl-20 space-y-6 sm:space-y-7'>
         <motion.p variants={fadeIn('', '', 0.4, 1)}>
-          I also contribute to <Highlight accent>mentoring and technical education</Highlight>, helping aspiring engineers develop their skills and confidence.
+          I also volunteered as a developer and mentor in DXC's <Highlight accent>Dandelion Program</Highlight> for neurodivergent IT talent.
         </motion.p>
       </div>
     </div>
