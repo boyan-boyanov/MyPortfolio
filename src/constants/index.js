@@ -38,6 +38,13 @@ export const socialLinks = {
   email: "b.i.boianov@gmail.com",
 };
 
+// The CV page (/cv) renders this PDF directly. To update the CV, replace the file in public/
+// and keep the same name (see README → Updating the CV). URLs are built in src/utils/cv.js
+export const cvFile = {
+  path: "cv/Boyan_Boyanov_Frontend_Engineer_CV.pdf", // relative to /public
+  downloadName: "Boyan_Boyanov_Frontend_Engineer_CV.pdf",
+};
+
 // Spread onto links that open an external profile in a new tab
 export const externalLinkProps = { target: "_blank", rel: "noopener noreferrer" };
 

@@ -20,3 +20,16 @@ export const MailIcon = ({ className = 'w-5 h-5' }) => (
     <path d='m22 6-10 7L2 6' />
   </svg>
 )
+
+export const DocumentIcon = ({ className = 'w-5 h-5' }) => (
+  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true' className={className}>
+    <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z' />
+    <path d='M14 2v6h6M8 13h8M8 17h5' />
+  </svg>
+)
+
+export const DownloadIcon = ({ className = 'w-5 h-5' }) => (
+  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true' className={className}>
+    <path d='M12 3v12m0 0-5-5m5 5 5-5M4 21h16' />
+  </svg>
+)

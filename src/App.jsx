@@ -1,27 +1,22 @@
-import { BrowserRouter } from "react-router-dom"
-// Works (Personal Projects) and Feedbacks (Testimonials) are hidden for now; to show them again,
-// import them here and uncomment them below
-import { About, Contact, Experience, Hero, Navbar, Tech, StarsCanvas } from './components'
+import { lazy, Suspense } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+
+// Both pages are loaded on demand: /cv does not download the Three.js scenes,
+// and the home page does not download the PDF renderer
+const HomePage = lazy(() => import('./pages/HomePage'))
+const CvPage = lazy(() => import('./pages/CvPage'))
 
 const App = () => {
 
   return (
-    <BrowserRouter>
-      <div className="relative z-0 bg-primary">
-        <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-          <Navbar />
-          <Hero />
-        </div>
-        <About />
-        <Experience />
-        <Tech />
-        {/* <Works /> */}
-        {/* <Feedbacks /> */}
-        <div className="relative z-0">
-          <Contact />
-          <StarsCanvas />
-        </div>
-      </div>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <Suspense fallback={<div className='min-h-screen bg-primary' />}>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/cv' element={<CvPage />} />
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

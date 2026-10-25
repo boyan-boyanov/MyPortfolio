@@ -1,0 +1,70 @@
+/* Selectable text over the rendered CV pages: transparent spans that pdf.js positions on top of the canvas.
+   The essential rules from pdfjs-dist/web/pdf_viewer.css (.textLayer), without the full viewer stylesheet */
+.cv-page {
+  --scale-round-x: 1px;
+  --scale-round-y: 1px;
+}
+
+.cv-page .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  text-align: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  z-index: 0;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+
+.cv-page .textLayer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+
+.cv-page .textLayer > :not(.markedContent),
+.cv-page .textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+
+.cv-page .textLayer .markedContent {
+  display: contents;
+}
+
+.cv-page .textLayer ::selection {
+  background: rgb(145 94 255 / 0.35);
+  color: transparent;
+}
+
+.cv-page .textLayer br::selection {
+  background: transparent;
+}
+
+/* Keeps the selection from jumping to the end of the page while dragging */
+.cv-page .textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+
+.cv-page .textLayer.selecting .endOfContent {
+  top: 0;
+}

@@ -3,11 +3,13 @@ import { motion } from 'framer-motion'
 import { ComputersCanvas } from './canvas'
 import './customStyles/Hero.css'
 import { socialLinks, externalLinkProps } from '../constants'
-import { GitHubIcon, LinkedInIcon } from './SocialIcons'
+import { DocumentIcon, GitHubIcon, LinkedInIcon } from './SocialIcons'
+import { cvPageUrl } from '../utils/cv'
 
 const heroLinks = [
   { href: socialLinks.linkedin, label: 'LinkedIn profile', Icon: LinkedInIcon },
   { href: socialLinks.github, label: 'GitHub profile', Icon: GitHubIcon },
+  { href: cvPageUrl, label: 'Open CV in a new tab', Icon: DocumentIcon },
 ]
 
 const Hero = () => {

@@ -6,6 +6,7 @@ import { navLinks, socialLinks, externalLinkProps } from '../constants'
 import { menu, close } from '../assets'
 import Logo2 from '../assets/Logo2.png'
 import { GitHubIcon, LinkedInIcon } from './SocialIcons'
+import { cvPageUrl } from '../utils/cv'
 
 const profileLinks = [
   { href: socialLinks.github, label: 'GitHub profile', Icon: GitHubIcon },
@@ -39,8 +40,12 @@ const Navbar = () => {
                 <a href={`#${link.id}`}>{link.title}</a>
               </li>
             ))}
+            {/* Opens the CV page in a new tab */}
+            <li className="custom-secondary text-[18px] font-medium nav-links">
+              <a href={cvPageUrl} aria-label="Open CV in a new tab" {...externalLinkProps}>CV</a>
+            </li>
           </ul>
-          {/* About · Work · Contact | GitHub · LinkedIn */}
+          {/* About · Work · Contact · CV | GitHub · LinkedIn */}
           <span aria-hidden='true' className='mx-6 h-5 w-px bg-secondary/40' />
           <div className='flex items-center gap-5'>
             {profileLinks.map((link) => (
@@ -63,6 +68,9 @@ const Navbar = () => {
                   <a href={`#${link.id}`}>{link.title}</a>
                 </li>
               ))}
+              <li className="custom-secondary text-[16px] font-medium font-poppins" onClick={() => setToggle(false)}>
+                <a href={cvPageUrl} aria-label="Open CV in a new tab" {...externalLinkProps}>CV</a>
+              </li>
             </ul>
             <span aria-hidden='true' className='my-4 h-px w-full bg-secondary/40' />
             <div className='flex items-center gap-5'>

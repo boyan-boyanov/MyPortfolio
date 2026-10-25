@@ -7,12 +7,14 @@ import { EarthCanvas } from './canvas'
 import { slideIn } from '../utils/motion'
 import SectionWrapper from '../hoc/SectionWrapper'
 import { socialLinks, externalLinkProps } from '../constants'
-import { GitHubIcon, LinkedInIcon, MailIcon } from './SocialIcons'
+import { DocumentIcon, GitHubIcon, LinkedInIcon, MailIcon } from './SocialIcons'
+import { cvPageUrl } from '../utils/cv'
 
 const contactLinks = [
   { href: `mailto:${socialLinks.email}`, label: socialLinks.email, Icon: MailIcon },
   { href: socialLinks.linkedin, label: 'LinkedIn', Icon: LinkedInIcon, external: true },
   { href: socialLinks.github, label: 'GitHub', Icon: GitHubIcon, external: true },
+  { href: cvPageUrl, label: 'CV', ariaLabel: 'Open CV in a new tab', Icon: DocumentIcon, external: true },
 ]
 
 // Set these in .env.local (see .env.example); the recipient address lives in the EmailJS template
@@ -80,6 +82,7 @@ const Contact = () => {
             <a
               key={link.label}
               href={link.href}
+              aria-label={link.ariaLabel}
               {...(link.external ? externalLinkProps : {})}
               className='inline-flex items-center gap-2 bg-tertiary py-2.5 px-3.5 rounded-lg text-white text-[15px] font-medium break-all md:break-normal md:whitespace-nowrap transition-colors hover:bg-[#915eff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff]'
             >
