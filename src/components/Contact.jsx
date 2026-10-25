@@ -43,16 +43,16 @@ const Contact = () => {
     setLoading(true)
     setStatus(null)
 
+    // Keys must match the EmailJS template variables exactly: {{name}}, {{email}}, {{message}}
+    const { name, email, message } = form
+    // TEMP: check the submitted values; remove once the received emails look right
+    console.log({ name, email, message })
+
     try {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          from_email: form.email,
-          reply_to: form.email,
-          message: form.message,
-        },
+        { name, email, message },
         { publicKey: EMAILJS_PUBLIC_KEY }
       )
       setForm(EMPTY_FORM)
