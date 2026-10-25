@@ -2,6 +2,8 @@
 
 Personal portfolio of a Frontend Engineer, built with React and interactive 3D scenes in Three.js.
 
+**Live:** [boyanboyanov.com](https://www.boyanboyanov.com)
+
 ![Portfolio preview](./docs/preview.png)
 
 ## Highlights
