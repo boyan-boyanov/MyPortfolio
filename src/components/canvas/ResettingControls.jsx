@@ -10,7 +10,8 @@ const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2
 
 // OrbitControls that glide back to the starting view `delay` ms after the user lets go.
 // Pass a shared `group` (see createResetGroup) to give several controls one common timer.
-const ResettingControls = ({ group, delay = 5000, duration = 1.5, ...props }) => {
+// When `resetKey` changes (e.g. a new model is shown), the camera jumps straight back to the starting view.
+const ResettingControls = ({ group, resetKey, delay = 5000, duration = 1.5, ...props }) => {
   const controls = useRef(null)
   const camera = useThree((state) => state.camera)
   const invalidate = useThree((state) => state.invalidate)
@@ -45,6 +46,18 @@ const ResettingControls = ({ group, delay = 5000, duration = 1.5, ...props }) =>
       if (resetGroup === ownGroup) ownGroup.dispose()
     }
   }, [resetGroup, ownGroup, camera, invalidate, offset])
+
+  useEffect(() => {
+    const orbit = controls.current
+    // Nothing to do while the user hasn't moved the camera yet
+    if (!home.current || !orbit) return
+    resetGroup.start() // cancels a pending glide back
+    resetting.current = false
+    orbit.target.copy(home.current.target)
+    camera.position.setFromSpherical(home.current.offset).add(orbit.target)
+    orbit.update()
+    invalidate()
+  }, [resetKey, resetGroup, camera, invalidate])
 
   const handleStart = () => {
     resetGroup.start()

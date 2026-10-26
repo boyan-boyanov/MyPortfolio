@@ -134,6 +134,13 @@
   display: none;
 }
 
+/* Below md the "Randomize 3D" button sits under the model (see Computers.jsx); make room for it */
+@media (max-width: 767px) {
+  .hero-stage {
+    margin-bottom: 3.5rem;
+  }
+}
+
 
 .motion-scroller {
   width: 35px;              

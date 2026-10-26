@@ -14,9 +14,15 @@ const heroLinks = [
 
 const Hero = () => {
   const stage = useRef(null)
+  const lastSize = useRef({ modelHeight: 0, idealHeight: 0 })
   // The 3D model reports its height on screen (the scroll hint scales with it) and the
-  // height it needs, so the stage never leaves empty space above it (see Hero.css)
+  // height it needs, so the stage never leaves empty space above it (see Hero.css).
+  // Changes of 1px are ignored: resizing the stage changes the canvas, which can move the
+  // measured height by 1px again, and the model would keep flickering between two sizes
   const handleModelResize = useCallback(({ modelHeight, idealHeight }) => {
+    const last = lastSize.current
+    if (Math.abs(modelHeight - last.modelHeight) <= 1 && Math.abs(idealHeight - last.idealHeight) <= 1) return
+    lastSize.current = { modelHeight, idealHeight }
     stage.current?.style.setProperty('--model-height', modelHeight)
     stage.current?.style.setProperty('--stage-height', idealHeight)
   }, [])

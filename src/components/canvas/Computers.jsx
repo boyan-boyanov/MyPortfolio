@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo } from 'react'
+import React, { Component, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { Box3, Euler, Matrix4, PMREMGenerator, Quaternion, Vector3 } from 'three'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import '../customStyles/Computers.css'
@@ -6,46 +6,16 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { Preload, useGLTF } from '@react-three/drei'
 import CanvasLoader from '../Loader'
 import ResettingControls from './ResettingControls'
+import { INITIAL_MODEL_ID, modelConfigs } from './models'
+import { createDisplayCounts, incrementCount, pickNextModelId } from '../../utils/pickNextModel'
 
 // How long after the user lets go of the model it returns to its starting view
 const RESET_DELAY = 5000
 // How long the glide back to the starting view takes, in seconds
 const RESET_DURATION = 1.5
 
-//scetchfab.com for more 3D models
-// Settings per model, so each one can look right on the dark background without affecting the others
-// saturation: 1 = original colors, 0 = black and white
-// emissiveIntensity: 1 = original glow of the RGB parts, 0 = no glow
-// environment: strength of the soft studio reflections (0 = none). Metal parts show only what
-//   they reflect, so without it they render almost black and blend into the background
-// lights: intensity of the hemisphere, point and spot lights
-const MODELS = {
-  desktopPc: {
-    path: './desktop_pc/scene.gltf',
-    rotation: [-0.01, -0.2, -0.1],
-    saturation: 0.7,
-    emissiveIntensity: 0.6,
-    environment: 0,
-    lights: { hemisphere: 5.15, point: 1, spot: 1 },
-  },
-  marsRover: {
-    path: './nasa_mars_landing/nasa_mars_landing_2021.glb',
-    rotation: [-0.01, -0.2, -0.1],
-    saturation: 1,
-    emissiveIntensity: 1,
-    environment: 1,
-    lights: { hemisphere: 1.5, point: 1, spot: 1 },
-  },
-}
-// A random model on every page load (picked once, when this file loads, so it stays the same until reload).
-// In dev, ?model=<key> shows a specific one, e.g. localhost:5180/?model=desktopPc, to tune its settings
-const pickModel = () => {
-  const requested = import.meta.env.DEV && new URLSearchParams(window.location.search).get('model')
-  if (requested && MODELS[requested]) return MODELS[requested]
-  const models = Object.values(MODELS)
-  return models[Math.floor(Math.random() * models.length)]
-}
-const MODEL = pickModel()
+// The models and their settings are in models.js
+const findModel = (id) => modelConfigs.find((model) => model.id === id)
 
 // useGLTF suspends while the model loads, so this component must render inside <Suspense>
 // How much of the canvas width the model may fill (1 = touches the edges); the model is scaled
@@ -97,8 +67,8 @@ const screenSpan = (meshes, placement, camera) => {
 
 // onModelResize gets the model's height on screen and the canvas height it needs (in pixels),
 // so the HTML around it can follow
-const Computers = ({ onModelResize }) => {
-  const computer = useGLTF(MODEL.path)
+const Computers = ({ model, onModelResize }) => {
+  const computer = useGLTF(model.url)
   const invalidate = useThree((state) => state.invalidate)
   // Visible area (in 3D units) at the orbit target; updates when the canvas is resized
   const viewport = useThree((state) => state.viewport)
@@ -110,7 +80,7 @@ const Computers = ({ onModelResize }) => {
   // where the scroll hint (positioned in Hero.css) sits on it
   const { scale, position, modelHeight, idealHeight } = useMemo(() => {
     camera.updateMatrixWorld()
-    const rotation = new Quaternion().setFromEuler(new Euler(...MODEL.rotation))
+    const rotation = new Quaternion().setFromEuler(new Euler(...model.rotation))
     const placement = new Matrix4()
     const span = (scale, offset) =>
       screenSpan(bounds.meshes, placement.compose(offset, rotation, new Vector3(scale, scale, scale)), camera)
@@ -139,7 +109,7 @@ const Computers = ({ onModelResize }) => {
       // would only add empty space above the model
       idealHeight: Math.round((fullWidthHeight + TOP_GAP) / (1 - BOTTOM_GAP)),
     }
-  }, [bounds, camera, viewport, canvasHeight])
+  }, [bounds, camera, viewport, canvasHeight, model.rotation])
 
   useEffect(() => {
     onModelResize?.({ modelHeight, idealHeight })
@@ -152,7 +122,7 @@ const Computers = ({ onModelResize }) => {
       material.userData.desaturated = true
 
       if (material.emissive) {
-        material.emissiveIntensity = MODEL.emissiveIntensity
+        material.emissiveIntensity = model.emissiveIntensity
       }
 
       // Blend the final pixel color toward gray; works for plain colors and textures alike
@@ -161,25 +131,25 @@ const Computers = ({ onModelResize }) => {
           '#include <dithering_fragment>',
           `#include <dithering_fragment>
           float gray = dot(gl_FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-          gl_FragColor.rgb = mix(vec3(gray), gl_FragColor.rgb, ${MODEL.saturation.toFixed(2)});`
+          gl_FragColor.rgb = mix(vec3(gray), gl_FragColor.rgb, ${model.saturation.toFixed(2)});`
         )
       }
       material.needsUpdate = true
     })
     // frameloop='demand' only redraws on request, so ask for a new frame after changing materials
     invalidate()
-  }, [computer, invalidate])
+  }, [computer, invalidate, model.emissiveIntensity, model.saturation])
 
   return (
     <mesh>
       {/* Lights */}
-      <hemisphereLight intensity={MODEL.lights.hemisphere} groundColor="black" />
-      <pointLight intensity={MODEL.lights.point} />
+      <hemisphereLight intensity={model.lights.hemisphere} groundColor="black" />
+      <pointLight intensity={model.lights.point} />
       <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
         penumbra={1}
-        intensity={MODEL.lights.spot}
+        intensity={model.lights.spot}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
@@ -189,7 +159,7 @@ const Computers = ({ onModelResize }) => {
       <primitive object={computer.scene}
         scale={scale}
         position={position}
-        rotation={MODEL.rotation}
+        rotation={model.rotation}
       />
     </mesh>
   )
@@ -220,29 +190,134 @@ const StudioEnvironment = ({ intensity }) => {
   return null
 }
 
+// Downloads the next model without showing it, so the current one stays on screen until it is ready.
+// useGLTF caches the result, so the visible model then appears without loading again
+const ModelPreloader = ({ url, onLoaded }) => {
+  useGLTF(url)
+  useEffect(() => {
+    onLoaded()
+  }, [onLoaded])
+  return null
+}
+
+// Catches a model that fails to download or parse, so the scene keeps the current model
+class LoadErrorBoundary extends Component {
+  state = { failed: false }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  componentDidCatch(error) {
+    console.error(error)
+    this.props.onError()
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
+
 const ComputersCanvas = ({ onModelResize }) => {
+  // One state object, so the shown model, the one loading and the counts always change together.
+  // Counts last for this page session only: a reload starts again from the first model
+  const [models, setModels] = useState(() => ({
+    currentId: INITIAL_MODEL_ID,
+    pendingId: null,
+    counts: createDisplayCounts(modelConfigs, INITIAL_MODEL_ID),
+    failedIds: [],
+    failed: false,
+  }))
+  const current = findModel(models.currentId)
+  const pending = models.pendingId ? findModel(models.pendingId) : null
+  const hasOtherModel = modelConfigs.some(({ id }) => id !== models.currentId && !models.failedIds.includes(id))
+
+  // Picked here in the click handler, not inside a state updater, so Strict Mode can't pick twice
+  const handleRandomize = () => {
+    if (models.pendingId) return
+    const nextId = pickNextModelId({
+      models: modelConfigs,
+      counts: models.counts,
+      currentId: models.currentId,
+      excludedIds: models.failedIds,
+    })
+    if (!nextId || nextId === models.currentId) return
+    setModels((prev) =>
+      prev.pendingId ? prev : { ...prev, pendingId: nextId, counts: incrementCount(prev.counts, nextId), failed: false }
+    )
+  }
+
+  const handleLoaded = useCallback(() => {
+    setModels((prev) => (prev.pendingId ? { ...prev, currentId: prev.pendingId, pendingId: null } : prev))
+  }, [])
+
+  // A model that fails is left out of the next picks for this session
+  const handleFailed = useCallback(() => {
+    setModels((prev) =>
+      prev.pendingId
+        ? { ...prev, pendingId: null, failedIds: [...prev.failedIds, prev.pendingId], failed: true }
+        : prev
+    )
+  }, [])
 
   return (
-    <Canvas
-      frameloop='demand'
-      shadows
-      camera={{ position: [20, 3, 5], fov: 25 }}
-      gl={{ preserveDrawingBuffer: true }}
-    >
-      <Suspense fallback={<CanvasLoader />}>
-        <ResettingControls
-          delay={RESET_DELAY}
-          duration={RESET_DURATION}
-          enableZoom={false}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-        />
-        <StudioEnvironment intensity={MODEL.environment} />
-        <Computers onModelResize={onModelResize} />
-      </Suspense>
+    <>
+      <Canvas
+        frameloop='demand'
+        shadows
+        camera={{ position: [20, 3, 5], fov: 25 }}
+        gl={{ preserveDrawingBuffer: true }}
+      >
+        <Suspense fallback={<CanvasLoader />}>
+          <ResettingControls
+            resetKey={current.id}
+            delay={RESET_DELAY}
+            duration={RESET_DURATION}
+            enableZoom={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
+          />
+          <StudioEnvironment intensity={current.environment} />
+          {/* The key gives every model a fresh component, so none of the previous model's state carries over */}
+          <Computers key={current.id} model={current} onModelResize={onModelResize} />
+        </Suspense>
 
-      <Preload all />
-    </Canvas>
+        {pending && (
+          <LoadErrorBoundary key={pending.id} onError={handleFailed}>
+            <Suspense fallback={null}>
+              <ModelPreloader url={pending.url} onLoaded={handleLoaded} />
+            </Suspense>
+          </LoadErrorBoundary>
+        )}
+
+        <Preload all />
+      </Canvas>
+
+      {/* Bottom-right corner of the 3D stage. Below md the model fills the whole stage, so the button
+          sits just under it instead (Hero.css leaves room for it). Only the button takes clicks,
+          so dragging the model and scrolling work everywhere else */}
+      {modelConfigs.length > 1 && (
+        <div className='pointer-events-none absolute right-5 top-full mt-1.5 md:top-auto md:mt-0 md:right-6 md:bottom-6 z-10 flex flex-col items-end gap-1.5'>
+          {/* Shown from lg up, where the corner is free; an error shows on every screen */}
+          <p
+            aria-live='polite'
+            className={`${models.failed ? 'block' : 'hidden lg:block'} text-[11px] uppercase tracking-[0.12em] text-secondary/70`}
+          >
+            {models.failed ? 'Model unavailable' : current.name}
+          </p>
+          <button
+            type='button'
+            onClick={handleRandomize}
+            disabled={Boolean(pending) || !hasOtherModel}
+            aria-busy={Boolean(pending)}
+            aria-label='Randomize 3D – display another 3D model'
+            className='pointer-events-auto rounded-lg border border-[#915eff]/40 bg-primary/70 px-3.5 py-2 text-[13px] font-medium text-secondary backdrop-blur-sm transition-colors hover:border-[#915eff]/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915eff] focus-visible:ring-offset-2 focus-visible:ring-offset-primary disabled:cursor-not-allowed disabled:opacity-60 aria-busy:cursor-wait'
+          >
+            {pending ? 'Loading 3D…' : 'Randomize 3D'}
+          </button>
+        </div>
+      )}
+    </>
   )
 }
 
